@@ -1,0 +1,50 @@
+.createProject {
+    background-color: red;
+    margin: 16px 0 16px 8px;
+    padding: 24px;
+    height: 40%;
+}
+
+.text {
+    font-size: 12px;
+}
+
+.newProject {
+    font-weight: 650;
+}
+
+/* .newProjectBtn {
+    width: 30px;
+        height: 30px;
+        font-size: 20px;
+        color: white;
+        background-color: rgb(83, 199, 245);
+        border-radius: 50%;
+        border: none;
+        margin: 0 16px 0 0;
+} */
+
+.newProjectBtn {
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    text-align: left;
+}
+
+.btnImg {
+    display: inline-block;
+    margin: 0 8px 0 0;
+    border: none;
+    background-color: rgb(83, 199, 245);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    line-height: 32px;
+    font-size: 20px;
+    text-align: center;
+    color: white;
+}
+
+.btnText {
+    font-size: 18px;
+}
