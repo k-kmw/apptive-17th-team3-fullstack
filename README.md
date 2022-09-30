@@ -35,4 +35,3 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 =======
 # apptive-17th-team3-fullstack
 team3's fullstack(Node JS + Next.js)
->>>>>>> 4b9e805347ec6b0eed808757f23c0042abc82cf5
