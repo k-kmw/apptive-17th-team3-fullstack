@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import React from 'react';
 import { GoogleLogout } from 'react-google-login';
 import GoogleButton from '../googleLogin/googleLogin';
@@ -28,8 +29,8 @@ const Navbar = ({user, logoutButton, onSuccess, onFailure, clientId}) => {
                         <div className={styles.userText}>
                             <h2 className={styles.name}>{user.profileObj.name}</h2>
                             <h3 className={styles.email}>{user.profileObj.email}</h3>
-                        </div>  
-                        <img className={styles.userImg} src={user.profileObj.imageUrl} alt="" />
+                        </div>
+                        <Image className={styles.userImg} src={user.profileObj.imageUrl} alt="" />
                     </div>
 
                     {/* <button onClick={logoutButton}>Logout</button> */}
