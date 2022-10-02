@@ -51,11 +51,11 @@ async function saveCredentials(client) {
  *
  */
 async function authorize() {
-  let client = await loadSavedCredentialsIfExist();
-  if (client) {
-    return client;
-  }
-  client = await authenticate({
+  // let client = await loadSavedCredentialsIfExist();
+  // if (client) {
+  //   return client;
+  // }
+  let client = await authenticate({
     scopes: SCOPES,
     keyfilePath: CREDENTIALS_PATH,
   });
@@ -95,7 +95,7 @@ async function listEvents(auth) {
 // authorize().then(listEvents).catch(console.error);
 
 export default async function handler(req, res) {
-  //res.status(200).json({ name: 'John Doe' })
   const lists = await authorize().then(listEvents);
-  res.status(200).json({ str: lists.toString() });
+  // res.status(200).json({ str: lists.toString() });
+  res.redirect("../../");
 }
