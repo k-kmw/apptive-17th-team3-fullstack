@@ -83,8 +83,9 @@ async function listEvents(auth) {
     console.log('No upcoming events found.');
     return;
   }
-  console.log('Upcoming 10 events:');
-  events.map((event, i) => {
+  // console.log('Upcoming 10 events:');
+
+  return events.map((event, i) => {
     const start = event.start.dateTime || event.start.date;
     return `${start} - ${event.summary}`;
     // console.log(`${start} - ${event.summary}`);
@@ -96,5 +97,5 @@ async function listEvents(auth) {
 export default async function handler(req, res) {
   //res.status(200).json({ name: 'John Doe' })
   const lists = await authorize().then(listEvents);
-  res.status(200).json({ lists: lists });
+  res.status(200).json({ str: lists.toString() });
 }

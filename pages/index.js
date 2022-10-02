@@ -8,7 +8,8 @@ import CreateProject  from '../components/create_porject/createProject';
 import ModalForm      from '../components/modal_form/modalForm';
 import Calendar       from '../components/calendar/calendar';
 import Navbar         from '../components/navbar/navbar';
-const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const clientId = process.env.NEXT_GOOGLE_CLIENT_ID;
+// const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 function App() {
   // useEffect(() => {
   //   function start() {
@@ -17,7 +18,6 @@ function App() {
   //       scope: 'email'
   //     })
   //   }
-
   //   gapi.load('client:auth2', start);
   // }, []);
 
