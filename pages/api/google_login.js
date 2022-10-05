@@ -51,11 +51,11 @@ async function saveCredentials(client) {
  *
  */
 async function authorize() {
-  // let client = await loadSavedCredentialsIfExist();
-  // if (client) {
-  //   return client;
-  // }
-  let client = await authenticate({
+  let client = await loadSavedCredentialsIfExist();
+  if (client) {
+    return client;
+  }
+  client = await authenticate({
     scopes: SCOPES,
     keyfilePath: CREDENTIALS_PATH,
   });
@@ -94,6 +94,10 @@ async function listEvents(auth) {
 
 // authorize().then(listEvents).catch(console.error);
 
+export const getSavedCredentialsIfExist = () => {
+  const content1 = require("../../token.json");
+  return google.auth.fromJSON(credentials);
+};
 export default async function handler(req, res) {
   const lists = await authorize().then(listEvents);
   // res.status(200).json({ str: lists.toString() });

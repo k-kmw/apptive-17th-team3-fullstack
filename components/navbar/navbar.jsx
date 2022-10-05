@@ -1,10 +1,14 @@
 import Image from 'next/image'
-import React from 'react';
+// import React from 'react';
 import { GoogleLogout } from 'react-google-login';
 import GoogleButton from '../googleLogin/googleLogin';
 import styles from './navbar.module.css';
-const Navbar = ({user, logoutButton, onSuccess, onFailure, clientId}) => {
 
+import { useContext } from 'react'
+import { AuthContext } from '../../lib/auth';
+
+const Navbar = ({user, logoutButton, onSuccess, onFailure, clientId}) => {
+    const {isLogin} = useContext(AuthContext);
     return (
         <nav className={styles.container}>
             <h1 className={styles.logo}>LOGO</h1>
@@ -37,6 +41,7 @@ const Navbar = ({user, logoutButton, onSuccess, onFailure, clientId}) => {
 
                 </div>}
             
+            <div>{isLogin ? "login" : "not"}</div>
         </nav>
     )
 };
