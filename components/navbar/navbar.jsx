@@ -1,14 +1,25 @@
+import { useSession } from "next-auth/react"
 import Image from 'next/image'
-// import React from 'react';
-import { GoogleLogout } from 'react-google-login';
+
 import GoogleButton from '../googleLogin/googleLogin';
 import styles from './navbar.module.css';
 
-import { useContext } from 'react'
-import { AuthContext } from '../../lib/auth';
+const Navbar = () => {
+    const { data: session } = useSession()
 
-const Navbar = ({user, logoutButton, onSuccess, onFailure, clientId}) => {
-    const {isLogin} = useContext(AuthContext);
+    let UserInfo = (<></>);
+    if(session){
+        UserInfo = (
+            <div className={styles.userInfo}>
+                <div className={styles.userText}>
+                    <h2 className={styles.name}>{session.user.name}</h2>
+                    <h3 className={styles.email}>{session.user.email}</h3>
+                </div>
+                <Image className={styles.userImg} src={session.user.image} width={"50px"} height={"50px"} alt="" />
+            </div>
+        );
+    }
+
     return (
         <nav className={styles.container}>
             <h1 className={styles.logo}>LOGO</h1>
@@ -19,29 +30,8 @@ const Navbar = ({user, logoutButton, onSuccess, onFailure, clientId}) => {
                 <li className={styles.menu}>도움말</li>
             </ul>
             
-                {Object.keys(user).length === 0 && <GoogleButton 
-                    onSuccess={onSuccess} onFailure={onFailure} clientId={clientId} />}
-            
-                {Object.keys(user).length !== 0 &&
-                <div className={styles.userContainer}>
-                    <GoogleLogout
-                        clientId={clientId}
-                        buttonText="Logout"
-                        onLogoutSuccess={logoutButton}
-                    ></GoogleLogout>
-                    <div className={styles.userInfo}>
-                        <div className={styles.userText}>
-                            <h2 className={styles.name}>{user.profileObj.name}</h2>
-                            <h3 className={styles.email}>{user.profileObj.email}</h3>
-                        </div>
-                        <Image className={styles.userImg} src={user.profileObj.imageUrl} alt="" />
-                    </div>
-
-                    {/* <button onClick={logoutButton}>Logout</button> */}
-
-                </div>}
-            
-            <div>{isLogin ? "login" : "not"}</div>
+            <GoogleButton />
+            {UserInfo}
         </nav>
     )
 };

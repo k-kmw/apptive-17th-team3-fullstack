@@ -1,24 +1,17 @@
-import React, { useEffect,useContext } from 'react'
-import { AuthContext } from '../../lib/auth';
-import GoogleLogin from 'react-google-login';
+import { useSession, signIn, signOut } from "next-auth/react"
+import React from "react"
 
-const GoogleButton = ({onSuccess, onFailure, clientId}) => {
-    const {isLogin, setIsLogin} = useContext(AuthContext);
-    const move_to_login = () => {
-        location.href = "../../";
-        // setIsLogin(true);
-    };
+const GoogleButton = () => {
+  const { data: session } = useSession()
+  if (session)
+    return (<button onClick={() => signOut()}>Sign out</button>)
+  
   return (
-    //   <GoogleLogin
-    //     clientId={clientId}
-    //     buttonText="login in with google"
-    //     onSuccess={onSuccess}
-    //     onFailure={onFailure}
-    //   />
-    <button onClick={isLogin ? null : move_to_login}>
-        {isLogin ? "success" : "구글 로그인"}
-    </button>
+    <>
+      Not signed in <br />
+      <button onClick={() => signIn("google", {callbackUrl: 'http://localhost:4000/'})}>Sign in</button>
+    </>
   )
-}
+};
 
 export default GoogleButton
