@@ -19,21 +19,23 @@ export default async (req, res) => {
         'location': '800 Howard St., San Francisco, CA 94103',
         'description': 'A chance to hear more about Google\'s developer products.',
         'start': {
-            'dateTime': '2022-10-28T09:00:00-07:00',
+            'dateTime': '2022-10-30T09:00:00-07:00',
             'timeZone': 'Asia/Seoul',
         },
         'end': {
-            'dateTime': '2022-10-28T17:00:00-07:00',
+            'dateTime': '2022-10-30T17:00:00-07:00',
             'timeZone': 'Asia/Seoul',
         },
         'recurrence': ['RRULE:FREQ=DAILY;COUNT=2'],
         'attendees': [{'email': 'lpage@example.com'},{'email': 'sbrin@example.com'},],
+        'status' : "tentative"
     };
     
     calendar.events.insert(
         {
             auth: auth,
-            calendarId: 'primary',
+            calendarId: 'vfldkg6gmbpo93qdf2ku34v8f0@group.calendar.google.com',
+            // calendarId: 'primary',
             resource: event,
         }, 
         function(err, event) {
@@ -41,8 +43,8 @@ export default async (req, res) => {
                 console.log('There was an error contacting the Calendar service: ' + err);
                 return;
             }
-            console.log('Event created: %s', event.htmlLink);
-            res.status(200).send("done");
+            console.log('Event created: %s', event.id);
+            res.status(200).send(event.id);
         }
     );
 };
