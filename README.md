@@ -9,6 +9,7 @@ Without DB, Using Google Calendar API
     - calendarID같은거 본인꺼 써야되는데..., 프런트는 api호출부 어떻게?
     - 일별 평균 작업 수....(일일 작업 수를 받아올 수 있으면, 앞뒤로 일주일치 불러와서...)
     - 혹시 figma말고 다른데서 디자인 있는거 있나?
+    - 프로젝트 일정만 보여주기?
 # API document
 - 프로젝트
     1. list
@@ -19,7 +20,7 @@ Without DB, Using Google Calendar API
             status : 200,
             message : [{projectid, title, description}, ...]
         }
-        backend_note : calendar.calendarlist.list
+        backend_note : calendar.calendarlist.list, 프로젝트 일정만 가져오기?
         ```
     2. 프로젝트 내 일정들 받아오기
         ```
@@ -34,7 +35,7 @@ Without DB, Using Google Calendar API
                 lists : [{title, status, description, location, start, end}, ...]
             }
         }
-        backend_note : calendar.calendars.insert, calculate percent
+        backend_note : calendar.events.list, calculate percent
         ```
     3. insert
         ```
@@ -43,10 +44,7 @@ Without DB, Using Google Calendar API
             title, description
             options : location
         }
-        response : {
-            status : 200,
-            message : projectID
-        }
+        response : projectID
         backend_note : calendar.calendars.insert
         ```
     4. update
@@ -59,7 +57,7 @@ Without DB, Using Google Calendar API
         }
         response : {
             status : 200,
-            message : ...
+            message : "success"
         }
         backend_note : calendar.calendars.patch
         ```
@@ -81,7 +79,7 @@ Without DB, Using Google Calendar API
         ```
         url : baseURL/api/....
         param : {
-            title, start, end, projectID,
+            title, start('2022-10-30T09:00:00-07:00'), end, projectID,
             options : location, description, (더 넣고싶은거 있으면 말해주세요)
         }
         response : {
@@ -94,12 +92,13 @@ Without DB, Using Google Calendar API
         ```
         url : baseURL/api/....
         param : {
+            eventID, projectID,
             options : title, start, end, location, description, status
             (바꾸고 싶은거만 보내주면 됩니다.)
         }
         response : {
             status : 200,
-            message : ...
+            message : "success"
         }
         backend_note : calendar.events.patch
         ```

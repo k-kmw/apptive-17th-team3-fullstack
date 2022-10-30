@@ -14,36 +14,24 @@ export default async (req, res) => {
     auth.setCredentials({refresh_token : refresh_token});
    
     const calendar = google.calendar({version: 'v3', auth});
+
+    const {projectID, title, start, end, location, description} = req.query;
     var event = {
-        'summary': 'Google I/O 2015',
-        'location': '800 Howard St., San Francisco, CA 94103',
-        'description': 'A chance to hear more about Google\'s developer products.',
-        'start': {
-            'dateTime': '2022-10-30T09:00:00-07:00',
-            'timeZone': 'Asia/Seoul',
-        },
-        'end': {
-            'dateTime': '2022-10-30T17:00:00-07:00',
-            'timeZone': 'Asia/Seoul',
-        },
-        'recurrence': ['RRULE:FREQ=DAILY;COUNT=2'],
-        'attendees': [{'email': 'lpage@example.com'},{'email': 'sbrin@example.com'},],
-        'status' : "tentative"
+        'summary': title,
+        'location': location,
+        'description': description,
+        'start': {'dateTime': start, 'timeZone': 'Asia/Seoul'},
+        'end': {'dateTime': end,'timeZone': 'Asia/Seoul'},
+        'status' : "tentative",
     };
     
     calendar.events.insert(
-        {
-            auth: auth,
-            calendarId: 'vfldkg6gmbpo93qdf2ku34v8f0@group.calendar.google.com',
-            // calendarId: 'primary',
-            resource: event,
-        }, 
+        {calendarId: projectID,resource: event,}, 
         function(err, event) {
             if (err) {
                 console.log('There was an error contacting the Calendar service: ' + err);
                 return;
             }
-            console.log('Event created: %s', event.id);
             res.status(200).send(event.id);
         }
     );
