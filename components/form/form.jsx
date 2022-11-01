@@ -59,22 +59,7 @@ function Form({projectName, closeForm, formRef}) {
               
               disabled={ischeckTime ? true : false}>
                     <option value="">-</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="6">6</option>
-                    <option value="6">6</option>
-                    <option value="6">6</option>
-                    <option value="6">6</option>
-                    <option value="6">6</option>
-                    <option value="6">6</option>
-                    <option value="6">6</option>
-                    <option value="6">6</option>
-                    <option value="6">6</option>
-                    <option value="6">6</option>
+                    {Array(24).fill(0).map((v,i) => (<option value={i+1} key={i+1}>{i+1}</option>))}
                 </select>
                 <label htmlFor="hour">시</label>     
                 <Minute ischeckTime={ischeckTime} />          

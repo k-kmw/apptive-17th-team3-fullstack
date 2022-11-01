@@ -9,7 +9,7 @@ const Hour = ({ ischeckTime }) => (
             className={styles.select}
         >
             <option value="">-</option>
-            {Array(24).fill(0).map((v,i) => (<option value={i+1}>{i+1}</option>))}
+            {Array(24).fill(0).map((v,i) => (<option value={i+1} key={i+1}>{i+1}</option>))}
         </select>
         <label htmlFor="hour">시</label>   
     </>
