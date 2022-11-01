@@ -1,11 +1,10 @@
 .projectAll {
     display: flex;
     justify-content: flex-end;
-    background-color: red;
+    background-color: pink;
     margin: 16px 0 16px 8px;
     padding: 12px;
-    height: 40%;
-    overflow: auto;
+    height: 40%;    
 }
 
 .createProject {
@@ -36,6 +35,11 @@
     background-color: transparent;
     margin: 0;
     text-align: left;
+    cursor: pointer;
+}
+
+.newProjectBtn:hover {
+    opacity: 0.8;
 }
 
 .btnImg {
@@ -60,5 +64,7 @@
 .project {
     display: flex;
     align-items: flex-end;
+    /* flex-wrap: wrap; */
     width: 60%;
+    height: 100%;
 }
