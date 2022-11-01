@@ -14,7 +14,7 @@ Without DB, Using Google Calendar API
 - 프로젝트
     1. list
         ```
-        url : baseURL/api/....
+        url : baseURL/api/p/list
         param : {}
         response : {
             status : 200,
@@ -24,7 +24,7 @@ Without DB, Using Google Calendar API
         ```
     2. 프로젝트 내 일정들 받아오기
         ```
-        url : baseURL/api/....
+        url : baseURL/api/p/events
         param : {
             projectID
         }
@@ -39,7 +39,7 @@ Without DB, Using Google Calendar API
         ```
     3. insert
         ```
-        url : baseURL/api/....
+        url : baseURL/api/p/insert
         param : {
             title, description
             options : location
@@ -49,7 +49,7 @@ Without DB, Using Google Calendar API
         ```
     4. update
         ```
-        url : baseURL/api/....
+        url : baseURL/api/p/update
         param : {
             projectID
             options : location, title, description
@@ -63,7 +63,7 @@ Without DB, Using Google Calendar API
         ```
     5. delete
         ```
-        url : baseURL/api/....
+        url : baseURL/api/p/delete
         param : {
             projectID
         }
@@ -77,7 +77,7 @@ Without DB, Using Google Calendar API
 - 일정
     1. insert
         ```
-        url : baseURL/api/....
+        url : baseURL/api/e/insert
         param : {
             title, start('2022-10-30T09:00:00-07:00'), end, projectID,
             options : location, description, (더 넣고싶은거 있으면 말해주세요)
@@ -90,7 +90,7 @@ Without DB, Using Google Calendar API
         ```
     2. update
         ```
-        url : baseURL/api/....
+        url : baseURL/api/e/update
         param : {
             eventID, projectID,
             options : title, start, end, location, description, status
@@ -104,7 +104,7 @@ Without DB, Using Google Calendar API
         ```
     2. delete
         ```
-        url : baseURL/api/....
+        url : baseURL/api/e/delete
         param : {
             projectID, eventID
         }
@@ -118,5 +118,11 @@ Without DB, Using Google Calendar API
 - 당일 일정 받아오기(이게 제일 빡셀수도...?)
     - get
         ```
-        ....우짠담
+        url : baseURL/api/daily
+        param : {}
+        response : {
+            status : 200,
+            message : [{start, end, summary, status, updated, created}, ...]
+        }
+        backend_note : ...우짜지
         ```
