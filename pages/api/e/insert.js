@@ -15,13 +15,13 @@ export default async (req, res) => {
    
     const calendar = google.calendar({version: 'v3', auth});
 
-    const {projectID, title, start, end, location, description} = req.query;
+    const {projectID, title, start, end, location, description, hour, minute} = req.query;
     var event = {
         'summary': title,
         'location': location,
         'description': description,
-        'start': {'dateTime': start, 'timeZone': 'Asia/Seoul'},
-        'end': {'dateTime': end,'timeZone': 'Asia/Seoul'},
+        'start': {'dateTime': `${start}T${hour[0]}:${minute[0]}:00-07:00`, 'timeZone': 'Asia/Seoul'},
+        'end': {'dateTime': `${end}T${hour[1]}:${minute[1]}:00-07:00`,'timeZone': 'Asia/Seoul'},
         'status' : "tentative",
     };
     
