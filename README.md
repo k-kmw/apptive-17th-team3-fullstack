@@ -115,6 +115,20 @@ Without DB, Using Google Calendar API
         backend_note : calendar.events.delete
         ```
 
+    3. daily(프로젝트별 당일 일정)
+        ```
+        url : baseURL/api/e/daily
+        param : {
+            projectID, date (YYYY-MM-DD 형식)
+        }
+        response : {
+            status : 200,
+            message : [{projectName,summary,description,location,start,end}]
+        }
+        backend_note :
+    
+        ```
+
 - 당일 일정 받아오기(이게 제일 빡셀수도...?)
     - get
         ```
