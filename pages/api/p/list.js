@@ -23,5 +23,6 @@ export default async (req, res) => {
             description : e.description,
         };
     });
+    console.log(lists);
     res.send(lists);
 };

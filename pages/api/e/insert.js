@@ -15,23 +15,17 @@ export default async (req, res) => {
    
     const calendar = google.calendar({version: 'v3', auth});
 
-    const {projectID, title, start, end, location, description, hour, minute, allday} = req.body;
+    const {projectID, title, start, end, location, description,} = req.query;
     var event = {
         'summary': title,
         'location': location,
         'description': description,
         'status' : "tentative",
-    };
-
-    if(allday == "on"){
-        event.start = {'date': start};
-        event.end = {'date': end};
-    }
-    else {
-        event.start = {'dateTime': `${start}T${hour[0]}:${minute[0]}:00-07:00`, 'timeZone': 'Asia/Seoul'};
-        event.end = {'dateTime': `${end}T${hour[1]}:${minute[1]}:00-07:00`,'timeZone': 'Asia/Seoul'};
+        'start' : {'dateTime':start,'timeZone':'Asia/Seoul'},
+        'end'  : {'dateTime' : end,'timeZone':'Asia/Seoul'} ,
     };
     
+
     calendar.events.insert(
         {calendarId: projectID,resource: event,}, 
         function(err, event) {
@@ -39,8 +33,8 @@ export default async (req, res) => {
                 console.log('There was an error contacting the Calendar service: ' + err);
                 return;
             }
-            res.redirect('/');
-            // res.status(200).send(event.id);
+           // res.redirect('/');
+           res.status(200).send(event.id);
         }
     );
 };

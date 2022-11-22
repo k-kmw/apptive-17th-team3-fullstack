@@ -15,7 +15,6 @@ export default async (req, res) => {
    
     const calendar = google.calendar({version: 'v3', auth});
 
-    const {projectID,date } = req.query;
     
     const proj_res = await calendar.calendarList.list();
 
@@ -28,9 +27,16 @@ export default async (req, res) => {
     });
     
     var results=[];
+    const time = new Date();
+    const pos_time = new Date();
+    pos_time.setDate(pos_time.getDate()+1);
+    const pre_time = new Date();
+    pre_time.setDate(pre_time.getDate()-1);
+    const today = time.getFullYear()+"-"+(time.getMonth()+1)+"-"+time.getDate();
+    const tomorrow =  pos_time.getFullYear()+"-"+(pos_time.getMonth()+1)+"-"+pos_time.getDate();
+    const yesterday =  pre_time.getFullYear()+"-"+(pre_time.getMonth()+1)+"-"+pre_time.getDate();
     
-    
-    for(let i=1;i<lists.length;i++){ // 내 캘린더가 아닌 다른캘린더에 포함된 대한민국의 휴일 캘린더가 포함된 경우 error 발생. index 0번에 위치. -> index 1번 부터 시작 
+    for(let i=1;i<lists.length;i++){ 
         
     const event_res = await calendar.events.list(
         {calendarId : lists[i].projectID,
@@ -41,7 +47,7 @@ export default async (req, res) => {
     
     const e_lists = event_res.data.items.map(e=>{
     
-        if(e.start.dateTime.includes(date)){
+        if(e.start.dateTime.includes(today)||e.start.dateTime.includes(yesterday)||e.start.dateTime.includes(tomorrow)){//||e.start.dateTime.includes(yesterday)||e.start.dateTime.includes(tomorrow)){
             return {
             projectName : e.organizer.displayName,
             summary : e.summary,
@@ -79,22 +85,14 @@ export default async (req, res) => {
     }
 
     res.send(daily_res);
-    
 
-    const start_time = e=> e[2]*1000000000+e[3]*100000000+e[5]*10000000+e[6]*1000000+e[8]*100000+e[9]*10000+e[11]*1000+e[12]*100+e[14]*10+e[15]*1;
-    console.log(start_time(daily_res[1].start));
-
-    const today = new Date();
-    const cur_time = (today.getFullYear()-2000)*100000000+((today.getMonth()+1)*1000000)+(today.getDate()*10000)+(today.getHours()*100)+(today.getMinutes()*1);
-    
+     const start_time = e=> e[2]*1000000000+e[3]*100000000+e[5]*10000000+e[6]*1000000+e[8]*100000+e[9]*10000+e[11]*1000+e[12]*100+e[14]*10+e[15]*1;
+    // console.log(start_time(daily_res[1].start));
 
     
-   
-
-    console.log(cur_time);
-    
-
-
+     const cur_time = (time.getFullYear()-2000)*100000000+((time.getMonth()+1)*1000000)+(time.getDate()*10000)+(time.getHours()*100)+(time.getMinutes()*1);
     
     
+     console.log(cur_time);
+     console.log(today);
 };

@@ -46,4 +46,5 @@ export default async (req, res) => {
     const result = e_lists.filter((elem)=>elem!== 'no_event');
     console.log(result);
     res.send(result);
+    
 };
