@@ -35,7 +35,8 @@ export default async (req, res) => {
     const event_res = await calendar.events.list(
         {calendarId : lists[i].projectID,
         singleEvents : true,
-        orderBy : 'startTime'},
+        orderBy : 'startTime',
+        timeZone: 'Asia/Seoul'},
      );
     
     
@@ -81,17 +82,7 @@ export default async (req, res) => {
     res.send(daily_res);
     
 
-    const start_time = e=> e[2]*1000000000+e[3]*100000000+e[5]*10000000+e[6]*1000000+e[8]*100000+e[9]*10000+e[11]*1000+e[12]*100+e[14]*10+e[15]*1;
-    console.log(start_time(daily_res[1].start));
-
-    const today = new Date();
-    const cur_time = (today.getFullYear()-2000)*100000000+((today.getMonth()+1)*1000000)+(today.getDate()*10000)+(today.getHours()*100)+(today.getMinutes()*1);
-    
-
-    
    
-
-    console.log(cur_time);
     
 
 

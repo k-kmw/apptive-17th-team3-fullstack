@@ -41,7 +41,8 @@ export default async (req, res) => {
     const event_res = await calendar.events.list(
         {calendarId : lists[i].projectID,
         singleEvents : true,
-        orderBy : 'startTime'},
+        timeZone : 'Asia/Seoul',
+        },
      );
     
     
@@ -73,26 +74,27 @@ export default async (req, res) => {
 
     var length = daily_res.length;
     var i,j,tmp;
-
+    
+    const start_time = e=> e[2]*1000000000+e[3]*100000000+e[5]*10000000+e[6]*1000000+e[8]*100000+e[9]*10000+e[11]*1000+e[12]*100+e[14]*10+e[15]*1;
+    const cur_time = (time.getFullYear()-2000)*100000000+((time.getMonth()+1)*1000000)+(time.getDate()*10000)+(time.getHours()*100)+(time.getMinutes()*1);
+    
     for(i=0;i<length;i++){
         for(j=0;j<length-1-i;j++){
-            if(daily_res[j].start>daily_res[j+1].start){
+            if(Math.abs(start_time(daily_res[j].start)-cur_time)>Math.abs(start_time(daily_res[j+1].start)-cur_time)){
                 tmp = daily_res[j];
                 daily_res[j]=daily_res[j+1];
                 daily_res[j+1]=tmp;
             }
         }
     }
-
-    res.send(daily_res);
-
-     const start_time = e=> e[2]*1000000000+e[3]*100000000+e[5]*10000000+e[6]*1000000+e[8]*100000+e[9]*10000+e[11]*1000+e[12]*100+e[14]*10+e[15]*1;
-    // console.log(start_time(daily_res[1].start));
-
+    let recent = [];
+     for(let i=0;i<4;i++){
+        if(daily_res[i]==null) recent.push('no recent');
+        else recent.push(daily_res[i]);
+     }
+    res.send(recent);
     
-     const cur_time = (time.getFullYear()-2000)*100000000+((time.getMonth()+1)*1000000)+(time.getDate()*10000)+(time.getHours()*100)+(time.getMinutes()*1);
-    
-    
-     console.log(cur_time);
-     console.log(today);
+
+     
+   
 };

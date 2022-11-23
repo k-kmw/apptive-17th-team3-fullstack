@@ -23,7 +23,8 @@ export default async (req, res) => {
     const event_res = await calendar.events.list(
         {calendarId :projectID,
         singleEvents : true,
-        orderBy : 'startTime'},
+        orderBy : 'startTime',
+        timeZone: 'Asia/Seoul'},
      );
      console.log(event_res);
     const e_lists = event_res.data.items.map(e=>{

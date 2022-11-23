@@ -123,20 +123,30 @@ Without DB, Using Google Calendar API
         }
         response : {
             status : 200,
-            message : [{projectName,summary,description,location,start,end}]
+            message : [{projectName,summary,description,location,start,end},...]
         }
         backend_note :
     
         ```
 
-- 당일 일정 받아오기(이게 제일 빡셀수도...?)
-    - get
+- daily(전체 프로젝트(프로젝트 상관없이) 당일 일정)
         ```
         url : baseURL/api/daily
+        param : {date (YYYY-MM-DD 형식)}
+        response : {
+            status : 200,
+            message : [{projectName,summary,description,location,start,end}, ...]
+        }
+        backend_note : 
+        ```
+- recent(최근 작업 명 표시 (전일~익일까지 현재 시간과 가장 근접한 작업 4개 표시))
+        ```
+        url : baseURL/api/recent
         param : {}
         response : {
             status : 200,
-            message : [{start, end, summary, status, updated, created}, ...]
+            message : [{projectName,summary,description,location,start,end}, ...]
         }
-        backend_note : ...우짜지
-        ```
+        backend_note : 전일~익일 간(총 3일) 일정이 4개가 안되는 경우 "no recent" 로 표시
+        예시(3일간 일정이 1개인 경우) =>  message : [{projectName,summary,description,location,start,end}, "no recent" ,"no recent" ,"no recent"]
+        ```        
