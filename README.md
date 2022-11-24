@@ -139,7 +139,7 @@ Without DB, Using Google Calendar API
         }
         backend_note : 
         ```
-    2. recent(최근 작업 명 표시 ,전일~익일까지 현재 시간과 가장 근접한 작업 4개 표시)
+    2. recent(최근 작업 명 표시 ,전일~익일까지 현재 시간과 가장 근접한 작업 순으로 4개 표시)
         ```
         url : baseURL/api/recent
         param : {}
