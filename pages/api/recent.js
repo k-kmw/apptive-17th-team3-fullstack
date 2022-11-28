@@ -38,7 +38,7 @@ export default async (req, res) => {
     
     for(let i=0;i<lists.length;i++){ 
         
-        if(lists[i].projectID.includes("ko.south_kor")) continue;
+        if(lists[i].projectID.includes("#")) continue;
         
     const event_res = await calendar.events.list(
         {calendarId : lists[i].projectID,

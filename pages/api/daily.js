@@ -30,9 +30,9 @@ export default async (req, res) => {
     var results=[];
     
     
-    for(let i=0;i<lists.length;i++){ // 내 캘린더가 아닌 다른캘린더에 포함된 대한민국의 휴일 캘린더가 포함된 경우 error 발생. index 0번에 위치. -> index 1번 부터 시작 
+    for(let i=0;i<lists.length;i++){ 
        
-        if(lists[i].projectID.includes("ko.south_kor")) continue;
+        if(lists[i].projectID.includes("#")) continue;
     
         const event_res = await calendar.events.list(
             {calendarId : lists[i].projectID,
@@ -43,7 +43,6 @@ export default async (req, res) => {
     
     
     const e_lists = event_res.data.items.map(e=>{
-        console.log(e);
     
         if(e.start.dateTime.includes(date)){
             return {
