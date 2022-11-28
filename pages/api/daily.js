@@ -15,7 +15,7 @@ export default async (req, res) => {
    
     const calendar = google.calendar({version: 'v3', auth});
 
-    const {projectID,date } = req.query;
+    const {date } = req.query;
     
     const proj_res = await calendar.calendarList.list();
 
@@ -30,17 +30,20 @@ export default async (req, res) => {
     var results=[];
     
     
-    for(let i=1;i<lists.length;i++){ // 내 캘린더가 아닌 다른캘린더에 포함된 대한민국의 휴일 캘린더가 포함된 경우 error 발생. index 0번에 위치. -> index 1번 부터 시작 
-        
-    const event_res = await calendar.events.list(
-        {calendarId : lists[i].projectID,
-        singleEvents : true,
-        orderBy : 'startTime',
-        timeZone: 'Asia/Seoul'},
-     );
+    for(let i=0;i<lists.length;i++){ // 내 캘린더가 아닌 다른캘린더에 포함된 대한민국의 휴일 캘린더가 포함된 경우 error 발생. index 0번에 위치. -> index 1번 부터 시작 
+       
+        if(lists[i].projectID.includes("ko.south_kor")) continue;
+    
+        const event_res = await calendar.events.list(
+            {calendarId : lists[i].projectID,
+            singleEvents : true,
+         orderBy : 'startTime',
+         timeZone: 'Asia/Seoul'},
+        );
     
     
     const e_lists = event_res.data.items.map(e=>{
+        console.log(e);
     
         if(e.start.dateTime.includes(date)){
             return {
@@ -50,6 +53,7 @@ export default async (req, res) => {
             location : e.location,
             start: e.start.dateTime,
             end : e.end.dateTime,
+            color : e.color,
             
             }
         }
