@@ -36,7 +36,9 @@ export default async (req, res) => {
     const tomorrow =  pos_time.getFullYear()+"-"+(pos_time.getMonth()+1)+"-"+pos_time.getDate();
     const yesterday =  pre_time.getFullYear()+"-"+(pre_time.getMonth()+1)+"-"+pre_time.getDate();
     
-    for(let i=1;i<lists.length;i++){ 
+    for(let i=0;i<lists.length;i++){ 
+        
+        if(lists[i].projectID.includes("ko.south_kor")) continue;
         
     const event_res = await calendar.events.list(
         {calendarId : lists[i].projectID,
