@@ -2,7 +2,8 @@ import React from 'react';
 import ProjectInfo from '../project_info/projectInfo';
 import styles from './create_project.module.css';
 
-const CreateProject = ({ openForm }) => {
+const CreateProject = ({ openForm, data }) => {
+    let cnt = 0;
     return (
         // <button onClick={() => window.open('http://www.goolge.com', 'window_name', 'width=430,height=500,location=no,status=no,scrollbars=yes') }>button</button>
         <div className={styles.projectAll}>
@@ -19,9 +20,13 @@ const CreateProject = ({ openForm }) => {
             </div>
 
             <div className={styles.project}>
-                {/* {data.map((item) => {
-                    return <ProjectInfo key={item.id} data={item} openForm={openForm}/> 
-                })} */}
+                {data.map((item) => {
+                    // console.log(item);
+                    if (cnt === 3)
+                        return;
+                    cnt++;
+                    return <ProjectInfo key={item.projectID} data={item} openForm={openForm}/> 
+                })}
 
             </div>
         </div>

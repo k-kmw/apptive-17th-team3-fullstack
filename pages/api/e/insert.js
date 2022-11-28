@@ -12,17 +12,24 @@ export default async (req, res) => {
     
     const auth = new google.auth.OAuth2(clientId, clientSecret);
     auth.setCredentials({refresh_token : refresh_token});
-   
+
     const calendar = google.calendar({version: 'v3', auth});
 
-    const {projectID, title, start, end, location, description} = req.query;
+    const {projectID, title, start, end, location, description, hour, minute, allday} = req.body;
+    console.log(req.body)
     var event = {
         'summary': title,
         'location': location,
         'description': description,
-        'start': {'dateTime': start, 'timeZone': 'Asia/Seoul'},
-        'end': {'dateTime': end,'timeZone': 'Asia/Seoul'},
         'status' : "tentative",
+    };
+    if(allday == "on"){
+        event.start = {'date': start};
+        event.end = {'date': end};
+    }
+    else {
+        event.start = {'dateTime': `${start}T${hour[0]}:${minute[0]}:00-07:00`, 'timeZone': 'Asia/Seoul'};
+        event.end = {'dateTime': `${end}T${hour[1]}:${minute[1]}:00-07:00`,'timeZone': 'Asia/Seoul'};
     };
     
     calendar.events.insert(
@@ -32,7 +39,9 @@ export default async (req, res) => {
                 console.log('There was an error contacting the Calendar service: ' + err);
                 return;
             }
-            res.status(200).send(event.id);
+            res.redirect('/');
+            // res.status(200).send(event.id);
+            
         }
     );
 };

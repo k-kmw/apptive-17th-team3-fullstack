@@ -4,7 +4,7 @@ import styles from './form.module.css'
 import Hour from './hour';
 import Minute from './minute';
 
-function Form({projectName, closeForm, formRef}) {
+function Form({projectID, projectName, closeForm, formRef}) {
   const [focus, setFocus] = useState(false);
   const [ischeckTime, setIscheckTime] = useState(false);
 
@@ -25,49 +25,53 @@ function Form({projectName, closeForm, formRef}) {
 
   return (
     <div className={styles.container}>
-        <form action="http://localhost:8080/form" method="POST" className={styles.project_form} ref = {formRef}>
-            <label htmlFor="project_name">프로젝트명</label>
-          <input type="text" id='project_name' name='project_name'
+      <form action={projectName == null ? "http://localhost:4000/api/p/insert" : "http://localhost:4000/api/e/insert"}
+        method="POST" className={styles.project_form} ref={formRef}>
+          <input type="hidden" name="projectID" value={projectID}/>
+          {projectName && <input type="hidden" name="description" value={projectName} />}
+          <label htmlFor="title" className={styles.text}>프로젝트 명</label>
+          <input type="text" id='title' name='title'
+          className={styles.input}
             required
-          value={projectName !== null ? projectName : undefined}
+            value={projectName !== null ? projectName : undefined}
             disabled = {projectName!==null ? true : false
             }
-          />
-            <label htmlFor="project_content">상세작업명</label>
-          <input type="text" id='project_content' name='project_content'  />
-          <div>
-            <label htmlFor="timeCheckbox">하루종일</label>
-            <input type="checkbox" id="all" name="time[all]" onChange={checkAlltime}/>
-          </div>
-            <label htmlFor="project_date_on">시작일</label>
-            <input type="date" id='project_date_on' name="time[startDate]"  />
-            <div className={styles.time}>
-          <Hour ischeckTime={ischeckTime}/>
-          <Minute ischeckTime={ischeckTime} />
+        />
+        
+        <label htmlFor="title" className={styles.text}>상세 작업 명</label>
+        <input type="text" className={styles.input} id='title' name='title' />
+        
+        <div className={styles.allTime}>
+            <label htmlFor="timeCheckbox" >하루종일</label>
+            <input type="checkbox" id="allday" name="allday" onChange={checkAlltime}/>
+        </div>
+        
+        <div className={styles.date}>
+          <label htmlFor="start" style={{marginRight: '14px'}}>시작일</label>
+          <input className={styles.inputDate} type="date" id='start' name="start" />
+        </div>
+        
+        <div className={styles.time}>
+            <Hour ischeckTime={ischeckTime}/>
+            <Minute ischeckTime={ischeckTime} />
         </div>        
         
-            <label htmlFor="project_date_off">종료일</label>            
-        <input type="date" id='project_date_off' name="time[endDate]"  />
+        <div className={styles.date}>
+          <label htmlFor="end" style={{marginRight: '14px'}}>종료일</label>            
+          <input className={styles.inputDate} type="date" id='end' name="end" />
+        </div>
         
             <div className={styles.time}>
-            <select name="time[hour]" id="hour"
-              onFocus={focusSelection}
-              onBlur={blurSelection}
-            onChange={blurSelection}
-            className={styles.hour}
-              size={focus ? 5 : 1}
-              
-              disabled={ischeckTime ? true : false}>
-                    <option value="">-</option>
-                    {Array(24).fill(0).map((v,i) => (<option value={i+1} key={i+1}>{i+1}</option>))}
-                </select>
-                <label htmlFor="hour">시</label>     
+                <Hour ischeckTime={ischeckTime}/>
                 <Minute ischeckTime={ischeckTime} />          
             </div>                  
-            <label htmlFor="project_memo">메모</label>      
-            <textarea name="project_memo" id="project_memo" cols="30" rows="10"></textarea> 
-            <button>apply</button>      
-            <button onClick={closeForm}>cancel</button>     
+            <label htmlFor="memo" className={styles.text}>메모</label>      
+        <textarea className={styles.memo} name="memo" id="memo" cols="30" rows="10"></textarea>
+        
+        <div className={styles.btns}> 
+          <button className={styles.btn} style={{ backgroundColor: '#3E9FFF', color: 'white' }} >적용</button>      
+          <button className={styles.btn} style={{backgroundColor: '#F3F5F7'}} onClick={closeForm}>취소</button>
+        </div>
         </form>
     </div>
   );
