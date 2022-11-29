@@ -32,13 +32,13 @@ export default async (req, res) => {
     
     for(let i=0;i<lists.length;i++){ 
        
-        if(lists[i].projectID.includes("#")) continue;
+        if(lists[i].projectID.includes("#")) continue; 
     
         const event_res = await calendar.events.list(
             {calendarId : lists[i].projectID,
             singleEvents : true,
-         orderBy : 'startTime',
-         timeZone: 'Asia/Seoul'},
+            orderBy : 'startTime',
+            timeZone: 'Asia/Seoul'},
         );
     
     
@@ -52,7 +52,6 @@ export default async (req, res) => {
             location : e.location,
             start: e.start.dateTime,
             end : e.end.dateTime,
-            color : e.color,
             
             }
         }
