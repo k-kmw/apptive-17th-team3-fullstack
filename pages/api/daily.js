@@ -24,21 +24,35 @@ export default async (req, res) => {
                 singleEvents: true,
                 orderBy: 'startTime',
             });
-            return cal_res.data.items;
+
+            return cal_res.data.items
+                .filter(e => e.start.dateTime != null)
+                .map(e => {
+                    const allday = (e.start.dateTime.includes(`00:00:00`) && e.end.dateTime.includes(`23:59:59`));
+                    return {
+                        color: cal.backgroundColor,
+                        created: e.created,
+                        updated: e.updated,
+                        summary: e.summary,
+                        allday: allday,
+                        start: e.start,
+                        end: e.end,
+                        status: e.extendedProperties?.private?.status,
+                    };
+                });
         })
     );
 
-    const data = twoWeekEvents.flat().filter(e => e.start.dateTime != null).map(e => {
-        const allday = (e.start.dateTime.includes(`00:00:00`) && e.end.dateTime.includes(`23:59:59`));
-        return {
-            status: e.status,
-            created: e.created,
-            updated: e.updated,
-            summary: e.summary,
-            allday: allday,
-            start: e.start,
-            end: e.end,
-        };
-    });
-    res.status(200).json(data);
+    // const data = twoWeekEvents.flat().filter(e => e.start.dateTime != null).map(e => {
+    //     const allday = (e.start.dateTime.includes(`00:00:00`) && e.end.dateTime.includes(`23:59:59`));
+    //     return {
+    //         created: e.created,
+    //         updated: e.updated,
+    //         summary: e.summary,
+    //         allday: allday,
+    //         start: e.start,
+    //         end: e.end,
+    //     };
+    // });
+    res.status(200).json(twoWeekEvents.flat());
 }

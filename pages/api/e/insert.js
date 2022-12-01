@@ -15,18 +15,19 @@ export default async (req, res) => {
    
     const calendar = google.calendar({version: 'v3', auth});
 
-    const {projectID, title, start, end, location, description, allday} = req.query;
+    let {projectID, title, start, end, location, description, allday} = req.body;
     if(allday == "on"){
-        start = `${start}T00:00:00-07:00`;
-        end = `${end}T23:59:59-07:00`;
-        // 2022-10-30T09:00:00-07:00
+        start = `${start}T00:00:00+09:00`;
+        end = `${end}T23:59:59+09:00`;
     }
+
     var event = {
         'summary': title,
         'location': location,
         'description': description,
         'start' : {'dateTime':start,'timeZone':'Asia/Seoul'},
-        'end'  : {'dateTime' : end,'timeZone':'Asia/Seoul'} ,
+        'end'  : {'dateTime' : end,'timeZone':'Asia/Seoul'},
+        'extendedProperties' : {'private' : {'status': 'test'}},
     };
     
         calendar.events.insert(

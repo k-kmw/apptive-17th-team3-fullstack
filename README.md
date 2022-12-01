@@ -10,6 +10,11 @@ Without DB, Using Google Calendar API
     - 일별 평균 작업 수....(일일 작업 수를 받아올 수 있으면, 앞뒤로 일주일치 불러와서...)
     - 혹시 figma말고 다른데서 디자인 있는거 있나?
     - 프로젝트 일정만 보여주기?
+
+# 해야될 것
+    - 프로젝트 컬러
+    - 일정 상태(extendedProperties)
+
 # API document
 - 프로젝트
     1. list

@@ -21,8 +21,8 @@ export default async (req, res) => {
             projectID : e.id,
             title : e.summary,
             description : e.description,
+            color : e.backgroundColor,
         };
     });
-    console.log(lists);
     res.send(lists);
 };
