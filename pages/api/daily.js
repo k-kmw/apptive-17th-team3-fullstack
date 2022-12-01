@@ -43,7 +43,8 @@ export default async (req, res) => {
     
     
     const e_lists = event_res.data.items.map(e=>{
-    
+        console.log("^^");
+        console.log(e.start)
         if(e.start.dateTime.includes(date)){
             return {
             projectName : e.organizer.displayName,
@@ -52,7 +53,6 @@ export default async (req, res) => {
             location : e.location,
             start: e.start.dateTime,
             end : e.end.dateTime,
-            
             }
         }
         else return 'no_event';
@@ -83,11 +83,6 @@ export default async (req, res) => {
 
     res.send(daily_res);
     
-
-   
-    
-
-
     
     
 };
