@@ -25,7 +25,6 @@ export default async (req, res) => {
         'summary': title,
         'location': location,
         'description': description,
-        'status' : "tentative",
         'start' : {'dateTime':start,'timeZone':'Asia/Seoul'},
         'end'  : {'dateTime' : end,'timeZone':'Asia/Seoul'} ,
     };
