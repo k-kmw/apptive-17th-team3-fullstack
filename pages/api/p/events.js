@@ -19,7 +19,9 @@ export default async (req, res) => {
     const cal_res = await calendar.events.list({calendarId: projectID,
         singleEvents : true,
         orderBy : 'startTime',
-        timeZone: 'Asia/Seoul'});
+        timeZone: 'Asia/Seoul',
+        maxResults: 2500 
+    });
     // Free text search terms to find events that match these terms in the following fields: summary, description, location, attendee's displayName, attendee's email. Optional.
     // q: 'placeholder-value',
 

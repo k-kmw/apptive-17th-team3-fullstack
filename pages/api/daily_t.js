@@ -16,10 +16,6 @@ export default async (req, res) => {
     const date = new Date();
     let oneWeekLater = new Date(date.getTime() + 7 * 24 * 60 * 60 * 1000);
     let oneWeekBefore = new Date(date.getTime() - 7 * 24 * 60 * 60 * 1000);
-    // let oneWeekLater = new Date();
-    // oneWeekLater.setDate(date.getDate() + 7);
-    // let oneWeekBefore = new Date();
-    // oneWeekBefore.setDate(date.getDate() - 7);
 
     const calendar = google.calendar({version: 'v3', auth});
     const cal_list = await calendar.calendarList.list();
@@ -30,21 +26,23 @@ export default async (req, res) => {
                 timeMin: oneWeekBefore.toISOString(),
                 timeMax: oneWeekLater.toISOString(),
                 singleEvents: true,
-                orderBy: 'startTime',
             });
             return cal_res.data.items;
         })
     );
 
-    const data = twoWeekEvents.flat().map(e => {
-        return {
-            status: e.status,
-            created: e.created,
-            updated: e.updated,
-            summary: e.summary,
-            start: e.start,
-            end: e.end,
-        };
-    });
+    const data = twoWeekEvents.flat()
+        .filter(e => e.start.dateTime != null)
+        .sort((e1, e2) => e1.end.dateTime > e2.end.dateTime)
+        .map(e => {
+            return {
+                status: e.status,
+                created: e.created,
+                updated: e.updated,
+                summary: e.summary,
+                start: e.start,
+                end: e.end,
+            };
+        });
     res.status(200).json(data);
 };

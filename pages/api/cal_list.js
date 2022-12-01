@@ -14,6 +14,7 @@ export default async (req, res) => {
     auth.setCredentials({refresh_token : refresh_token,});
     const calendar = google.calendar({version: 'v3', auth});
 
+    //using timeMin, timeMax we can get 14day's of event
     const cal_res = await calendar.events.list({
         calendarId: 'primary',
         timeMin: new Date().toISOString(),
