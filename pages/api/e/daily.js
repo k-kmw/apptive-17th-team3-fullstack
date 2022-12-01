@@ -28,7 +28,7 @@ export default async (req, res) => {
      );
      console.log(event_res);
     const e_lists = event_res.data.items.map(e=>{
-//test
+
 
         if(e.start.dateTime.includes(date)){
             return {

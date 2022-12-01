@@ -16,11 +16,25 @@ export default async (req, res) => {
     const calendar = google.calendar({version: 'v3', auth});
 
     const {projectID} = req.query;
-    const cal_res = await calendar.events.list({calendarId: projectID});
+    const cal_res = await calendar.events.list({calendarId: projectID,
+        singleEvents : true,
+        orderBy : 'startTime',
+        timeZone: 'Asia/Seoul'});
     // Free text search terms to find events that match these terms in the following fields: summary, description, location, attendee's displayName, attendee's email. Optional.
     // q: 'placeholder-value',
 
-    const events = cal_res.data.items;
-    const percent = events.filter(e => e.status == "confirmed").length / events.length
-    res.json({percent : percent * 100, lists : events});
+    const events = cal_res.data.items.map(e=>{
+        return {
+            projectName : e.organizer.displayName,
+            summary : e.summary,
+            description : e.description,
+            location : e.location,
+            start: e.start.dateTime,
+            end : e.end.dateTime,
+            
+            }
+    });
+    //const percent = events.filter(e => e.status == "confirmed").length / events.length
+    //res.json({percent : percent * 100, lists : events});
+    res.send(events);
 };
