@@ -4,6 +4,7 @@ import styles from './create_project.module.css';
 
 const CreateProject = ({ openForm, data }) => {
     let cnt = 0;
+    
     return (
         // <button onClick={() => window.open('http://www.goolge.com', 'window_name', 'width=430,height=500,location=no,status=no,scrollbars=yes') }>button</button>
         <div className={styles.projectAll}>
@@ -25,7 +26,7 @@ const CreateProject = ({ openForm, data }) => {
                     if (cnt === 3)
                         return;
                     cnt++;
-                    return <ProjectInfo key={item.projectID} data={item} openForm={openForm}/> 
+                    return <ProjectInfo key={item.projectID} id={item.projectID} data={item} openForm={openForm}/> 
                 })}
 
             </div>
@@ -33,4 +34,4 @@ const CreateProject = ({ openForm, data }) => {
     )
 };
 
-export default CreateProject;
+export default React.memo(CreateProject);

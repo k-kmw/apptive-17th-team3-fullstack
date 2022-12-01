@@ -1,3 +1,4 @@
+import React from "react";
 import { useSession } from "next-auth/react"
 import Image from 'next/image'
 
@@ -36,4 +37,4 @@ const Navbar = () => {
     )
 };
 
-export default Navbar;
+export default React.memo(Navbar);

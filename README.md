@@ -13,9 +13,6 @@ Without DB, Using Google Calendar API
     - 혹시 figma말고 다른데서 디자인 있는거 있나?
     - 프로젝트 일정만 보여주기?
 
-    -프로젝트 일정수 많은 순서로 정렬해서 보내기
-    -완성률 = 끝난일정수/전체일정수 => 어떻게 보내줄건지
-
 # API document
 
 - 프로젝트
@@ -112,6 +109,7 @@ Without DB, Using Google Calendar API
      backend_note : calendar.events.patch
      ```
   3. delete
+
      ```
      url : baseURL/api/e/delete
      param : {
@@ -124,14 +122,40 @@ Without DB, Using Google Calendar API
      backend_note : calendar.events.delete
      ```
 
-- 당일 일정 받아오기(이게 제일 빡셀수도...?)
-  - get
-    ```
-    url : baseURL/api/daily
-    param : {}
-    response : {
-        status : 200,
-        message : [{start, end, summary, status, updated, created}, ...]
-    }
-    backend_note : ...우짜지
-    ```
+  4. daily(프로젝트별 당일 일정)
+
+     ```
+     url : baseURL/api/e/daily
+     param : {
+         projectID, date (YYYY-MM-DD 형식)
+     }
+     response : {
+         status : 200,
+         message : [{projectName,summary,description,location,start,end},...]
+     }
+     backend_note :
+
+     ```
+
+- api
+  1. daily(전체 프로젝트 당일 일정, 프로젝트 상관없이)
+     ```
+     url : baseURL/api/daily
+     param : {date (YYYY-MM-DD 형식)}
+     response : {
+         status : 200,
+         message : [{projectName,summary,description,location,start,end}, ...]
+     }
+     backend_note :
+     ```
+  2. recent(최근 작업 명 표시 ,전일~익일까지 현재 시간과 가장 근접한 작업 순으로 4개 표시)
+     ```
+     url : baseURL/api/recent
+     param : {}
+     response : {
+         status : 200,
+         message : [{projectName,summary,description,location,start,end}, ...]
+     }
+     backend_note : 전일~익일 간(총 3일) 일정이 4개가 안되는 경우 "no recent" 로 표시
+     예시(3일간 일정이 1개인 경우) =>  message : [{projectName,summary,description,location,start,end}, "no recent" ,"no recent" ,"no recent"]
+     ```

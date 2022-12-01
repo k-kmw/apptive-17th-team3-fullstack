@@ -9,7 +9,8 @@ const Calendar2 = (props) => {
     const week = ['일', '월', '화', '수', '목', '금', '토']
     const getDailys = async () => {
         const res = await axios.get(`http://localhost:4000/api/daily`);
-            setDailys(res.data);
+        // console.log(res);
+        setDailys(res.data);
     }
     useEffect(() => {
         getDailys();
@@ -54,7 +55,7 @@ const Calendar2 = (props) => {
                 }
             }
         })
-        console.log(dailysObj)
+        // console.log(dailysObj)
     }
     
 

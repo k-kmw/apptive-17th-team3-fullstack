@@ -28,7 +28,7 @@ function Form({projectID, projectName, closeForm, formRef}) {
       <form action={projectName == null ? "http://localhost:4000/api/p/insert" : "http://localhost:4000/api/e/insert"}
         method="POST" className={styles.project_form} ref={formRef}>
           <input type="hidden" name="projectID" value={projectID}/>
-          {projectName && <input type="hidden" name="description" value={projectName} />}
+          {projectName && <input type="hidden" name="projectName" value={projectName} />}
           <label htmlFor="title" className={styles.text}>프로젝트 명</label>
           <input type="text" id='title' name='title'
           className={styles.input}
@@ -65,8 +65,8 @@ function Form({projectID, projectName, closeForm, formRef}) {
                 <Hour ischeckTime={ischeckTime}/>
                 <Minute ischeckTime={ischeckTime} />          
             </div>                  
-            <label htmlFor="memo" className={styles.text}>메모</label>      
-        <textarea className={styles.memo} name="memo" id="memo" cols="30" rows="10"></textarea>
+            <label htmlFor="description" className={styles.text}>메모</label>      
+        <textarea className={styles.memo} name="description" id="description" cols="30" rows="10"></textarea>
         
         <div className={styles.btns}> 
           <button className={styles.btn} style={{ backgroundColor: '#3E9FFF', color: 'white' }} >적용</button>      
@@ -77,4 +77,4 @@ function Form({projectID, projectName, closeForm, formRef}) {
   );
 }
 
-export default Form;
+export default React.memo(Form);

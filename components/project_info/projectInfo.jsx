@@ -1,7 +1,18 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import styles from './projectInfo.module.css'
 
-const ProjectInfo = ({ openForm, data }) => {
+const ProjectInfo = ({ id, openForm, data }) => {
+    const [projectInfo, setProjectInfo] = useState();
+    const getProjectInfo = async () => {
+        const res = await axios.get(`http://localhost:4000/api/p/events?projectID=${id}`);
+        // console.log(res);
+        setProjectInfo(res.data);
+    }
+    useEffect(() => {
+        getProjectInfo();
+    }, [])
+    // projectInfo && console.log('project', projectInfo.lists.length);
     return (
         <div className={styles.info}>
             <p className={styles.title}>{data && data.title}</p>
@@ -9,14 +20,14 @@ const ProjectInfo = ({ openForm, data }) => {
             <div className={styles.completion}>
                 <div className={styles.completionText}>
                     <span>Completion</span>
-                    <span>{data && data.completion} %</span>
+                    <span>{projectInfo && projectInfo.percent}%</span>
                 </div>
                 <div className={styles.completionBar}>
-                    <div className={styles.completionValue} style={{width: `${data.completion}%`}}></div>
+                    <div className={styles.completionValue} style={{width: `${projectInfo && projectInfo.percent}%`}}></div>
                 </div>
             </div>            
         </div>
     )
 }
 
-export default ProjectInfo;
+export default React.memo(ProjectInfo);

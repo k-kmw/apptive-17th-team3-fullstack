@@ -9,6 +9,7 @@ import Navbar        from          '../components/navbar/navbar';
 import Calendar      from        '../components/calendar/calendar';
 import Form          from            '../components/form/form';
 import Calendar2 from '../components/calendar/calendar2';
+import DoughnutChart from '../components/chart/doughnut';
 
 function App() {
     const [isFormOpen, setIsFormOpen] = useState(false); // form open/close
@@ -16,19 +17,48 @@ function App() {
     const [projectName, setProjectName] = useState("");
     const [projectID, setProjectID] = useState("");
     const [data, setData] = useState([]);
+    const [numOfSchedule, setNumOfSchedule] = useState([]);
     const { data: session } = useSession()
     const formRef = useRef();
 
     const getData = async () => {
         const res = await axios.get(`http://localhost:4000/api/p/list`);
         setData(res.data);
+        // console.log(res.data);
     }
     
+    // useEffect(() => {
+    //     async function getDataAndGetScheduleNum() {
+    //         await getData();
+    //         console.log(data);
+    //         for (let i = 0; i < data.length; i++) {
+    //             console.log(data[i]);
+    //             getScheduleNum(data[i].projectID);
+    //         }
+    //     }
+    //     getDataAndGetScheduleNum();
+    // }, [])
+
     useEffect(() => {
         getData();
     }, [])
 
-    // data.length != 0 && console.log('data', data);
+    useEffect(() => {
+        console.log(data);
+        if (!!data.length) {
+            for (let i = 0; i < data.length; i++) {
+                console.log(data[i]);
+                getScheduleNum(data[i]);
+            }
+        }
+    }, [data]);
+
+    const getScheduleNum = async (projectInfo) => {
+        console.log()
+        const res = await axios.get(`http://localhost:4000/api/p/events?projectID=${projectInfo.projectID}`);
+        setNumOfSchedule((cur) => [...cur, {title: projectInfo.title, num: res.data.lists.length }]);
+        // console.log(numOfSchedule);
+    }
 
     const openForm = (name, projectID, e) => { // form open시키는 함수
         if (!session) {
@@ -62,12 +92,13 @@ function App() {
         
     return (
         <div className={styles.container}>
+            {/* {projectIDs.length !== 0 && console.log(projectIDs)} */}
             <Navbar/>
             <div className={styles.main}>
                 <CreateProject data={data} openForm={openForm} />
             </div>
-
             {form_or_calendar}
+            <DoughnutChart data={data} numOfSchedule={numOfSchedule} />
         </div>
     );
 }
