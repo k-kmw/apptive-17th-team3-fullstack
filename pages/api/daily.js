@@ -45,8 +45,21 @@ export default async (req, res) => {
     const e_lists = event_res.data.items.map(e=>{
         console.log("^^");
         console.log(e.start)
-        if(typeof e.start.date != "undefined") console.log(''); 
+        if(typeof e.start.date != "undefined") {
+            if(e.start.date.includes(date)){
+                return {
+                projectName : e.organizer.displayName,
+                summary : e.summary,
+                description : e.description,
+                location : e.location,
+                start: e.start.dateTime,
+                end : e.end.dateTime,
+                }
+            }
+            else return 'no_event';
+        }
         else{
+        if(typeof e.start.dateTime != "undefined"){    
         if(e.start.dateTime.includes(date)){
             return {
             projectName : e.organizer.displayName,
@@ -58,6 +71,7 @@ export default async (req, res) => {
             }
         }
         else return 'no_event';
+    }
     }
     }
     )
