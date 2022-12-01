@@ -45,6 +45,8 @@ export default async (req, res) => {
     const e_lists = event_res.data.items.map(e=>{
         console.log("^^");
         console.log(e.start)
+        if(typeof e.start.date != "undefined") console.log(''); 
+        else{
         if(e.start.dateTime.includes(date)){
             return {
             projectName : e.organizer.displayName,
@@ -56,6 +58,7 @@ export default async (req, res) => {
             }
         }
         else return 'no_event';
+    }
     }
     )
     const daily = e_lists.filter((elem)=>elem!== 'no_event');
