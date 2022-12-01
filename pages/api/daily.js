@@ -52,8 +52,8 @@ export default async (req, res) => {
                 summary : e.summary,
                 description : e.description,
                 location : e.location,
-                start: e.start.dateTime,
-                end : e.end.dateTime,
+                start: e.start.date,
+                end : e.end.date,
                 }
             }
             else return 'no_event';
