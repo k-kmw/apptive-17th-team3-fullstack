@@ -15,7 +15,12 @@ export default async (req, res) => {
    
     const calendar = google.calendar({version: 'v3', auth});
 
-    const {projectID, title, start, end, location, description,} = req.query;
+    const {projectID, title, start, end, location, description, allday} = req.query;
+    if(allday == "on"){
+        start = `${start}T00:00:00-07:00`;
+        end = `${end}T23:59:59-07:00`;
+        // 2022-10-30T09:00:00-07:00
+    }
     var event = {
         'summary': title,
         'location': location,
@@ -25,8 +30,7 @@ export default async (req, res) => {
         'end'  : {'dateTime' : end,'timeZone':'Asia/Seoul'} ,
     };
     
-
-    calendar.events.insert(
+        calendar.events.insert(
         {calendarId: projectID,resource: event,}, 
         function(err, event) {
             if (err) {
