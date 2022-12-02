@@ -5,8 +5,9 @@
     width: 20%;
     margin: 16px;
     padding: 14px;
-    height: 920px;
+    height: 940px;
     /* font-size: 12px; */
+    overflow-y: hidden;
 }
 
 .weekAndBtn {
@@ -35,7 +36,7 @@
     background: #F1F1F1;
     box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.1);
     padding: 2px;
-    margin-bottom: 8px;
+    margin-bottom: 11px;
 }
 
 .allDayBanner {

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import axios from 'axios';
 import randomColor from 'randomcolor';
+import styles from './doughnut.module.css';
 
 function DoughnutChart({ data, numOfSchedule }) {
     
@@ -35,9 +35,7 @@ function DoughnutChart({ data, numOfSchedule }) {
   ],
 };
   return (
-    <div style={{ width: '500px' }}>
-      {<Doughnut data={Chartdata} />}
-    </div>
+      <Doughnut data={Chartdata} />
   );
 }
 

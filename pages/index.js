@@ -6,10 +6,9 @@ import { useSession } from "next-auth/react"
 
 import CreateProject from   '../components/create_porject/createProject';
 import Navbar        from          '../components/navbar/navbar';
-import Calendar      from        '../components/calendar/calendar';
 import Form          from            '../components/form/form';
 import Calendar2 from '../components/calendar/calendar2';
-import DoughnutChart from '../components/chart/doughnut';
+import Charts from '../components/chart/charts';
 
 function App() {
     const [isFormOpen, setIsFormOpen] = useState(false); // form open/close
@@ -44,19 +43,19 @@ function App() {
     }, [])
 
     useEffect(() => {
-        console.log(data);
+        // console.log(data);
         if (!!data.length) {
             for (let i = 0; i < data.length; i++) {
-                console.log(data[i]);
+                // console.log(data[i]);
                 getScheduleNum(data[i]);
             }
         }
     }, [data]);
 
     const getScheduleNum = async (projectInfo) => {
-        console.log()
         const res = await axios.get(`http://localhost:4000/api/p/events?projectID=${projectInfo.projectID}`);
-        setNumOfSchedule((cur) => [...cur, {title: projectInfo.title, num: res.data.lists.length }]);
+        console.log(res);
+        setNumOfSchedule((cur) => [...cur, {title: projectInfo.title, num: res.data.length }]);
         // console.log(numOfSchedule);
     }
 
@@ -88,7 +87,7 @@ function App() {
         // state에 저장한 것을 props로 내려줌
         // project name을 클릭이벤트로 받아서 
         (<Form closeForm={closeForm} projectID={projectID} projectName={checkForm ? projectName : null} formRef={formRef}/>) :
-        (<Calendar2 />);
+        (<Calendar2 openForm={openForm} />);
         
     return (
         <div className={styles.container}>
@@ -96,9 +95,9 @@ function App() {
             <Navbar/>
             <div className={styles.main}>
                 <CreateProject data={data} openForm={openForm} />
+                <Charts data={data} numOfSchedule={numOfSchedule} />
             </div>
             {form_or_calendar}
-            <DoughnutChart data={data} numOfSchedule={numOfSchedule} />
         </div>
     );
 }

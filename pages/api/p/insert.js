@@ -21,11 +21,9 @@ export default async (req, res) => {
             "description": description,
             "summary": title,
             "location" : location,
-            "timeZone": "Asia/Seoul"
+            "timeZone": "Asia/Seoul",   
         },
     });
     // res.status(200).json(data);
-    res.redirect('/');
     res.send(cal_res.data.id);
-    
 };

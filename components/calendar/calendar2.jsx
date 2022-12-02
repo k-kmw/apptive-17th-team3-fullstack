@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styles from './calendar2.module.css';
 
-const Calendar2 = (props) => {
+const Calendar2 = ({openForm}) => {
     const [dailys, setDailys] = useState();
     const [dailysObj, setDailysObj] = useState();
     let now = new Date();
@@ -17,27 +17,29 @@ const Calendar2 = (props) => {
     }, [])
     const displayTimes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
     const forTimeLine = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
-    const LINESPACE = 32.6
+    const LINESPACE = 32.3
 
     useEffect(() => {
-        const dailysObj = dailys && dailys.map(daily => ({        
+        const dailysObj = dailys && dailys.map(daily => ({
+        "allday":  daily.allday,
         "id": daily.created,
         "startDate": !(daily.allDay==true) && daily.start,
         "endDate": !(daily.allDay==true) && daily.end,
-        "startHour": !(daily.allDay==true) && parseInt(daily.start.slice(11, 13)),
-        "endHour": !(daily.allDay==true) && parseInt(daily.end.slice(11, 13)),
-        "startMinute":!(daily.allDay==true) && daily.start.slice(14, 16),
-        "endMinute":!(daily.allDay==true) && daily.end.slice(14, 16),
-        "height": !(daily.allDay==true) && (parseInt(daily.end.slice(11, 13)) - parseInt(daily.start.slice(11, 13))) * LINESPACE + (parseInt(daily.end.slice(14, 16)) - parseInt(daily.start.slice(14, 16))) / 60 * LINESPACE,
-        "title": daily.title,
+        "startHour": !(daily.allDay==true) && parseInt(daily.start.dateTime.slice(11, 13)),
+        "endHour": !(daily.allDay==true) && parseInt(daily.end.dateTime.slice(11, 13)),
+        "startMinute":!(daily.allDay==true) && daily.start.dateTime.slice(14, 16),
+        "endMinute":!(daily.allDay==true) && daily.end.dateTime.slice(14, 16),
+        "height": !(daily.allDay==true) && (parseInt(daily.end.dateTime.slice(11, 13)) - parseInt(daily.start.dateTime.slice(11, 13))) * LINESPACE + (parseInt(daily.end.dateTime.slice(14, 16)) - parseInt(daily.start.dateTime.slice(14, 16))) / 60 * LINESPACE,
+        "title": daily.summary,
         "color": daily.color,
         "allDay": daily.allDay,
-        "count": 1,
+        // "count": 1,
         }))
         setDailysObj(dailysObj)
-        dailysObj && calDupDaily(dailysObj)
+        // dailysObj && calDupDaily(dailysObj)
     }, [dailys])
 
+    // console.log(dailysObj)
     // dailysObj && console.log(dailysObj[1].startDate < dailysObj[2].startDate)
     // dailysObj && console.log(dailysObj[1].startDate, dailysObj[2].startDate)
     
@@ -65,13 +67,13 @@ const Calendar2 = (props) => {
                 <div>{now.getMonth() + 1}월 {now.getDate()}일</div>
                 <div className={styles.weekAndBtn}>
                     <p className={styles.week}>{week[now.getDay()]}요일</p>
-                    <form action="">
-                        <button className={styles.btn}>+일정 추가하기</button>
+                    <form>
+                        <button onClick={openForm} className={styles.btn}>+일정 추가하기</button>
                     </form>
                 </div>
                 <div className={styles.allday}>
                     <span className={styles.allDayBanner}>하루 종일</span>
-                    {dailysObj && dailysObj.map((daily) => daily.allDay ? <span className={styles.allDayTitle}>{daily.title}</span> : '')}
+                    {dailysObj && dailysObj.map((daily) => daily.allday ? <span className={styles.allDayTitle}>{daily.title}</span> : '')}
                 </div>
             </div>
 
@@ -89,11 +91,9 @@ const Calendar2 = (props) => {
                     {forTimeLine.map(i =>
                         <div className={styles.timeline} style={{top: `${i*LINESPACE-11}px`}}></div>
                     )}
-                    {forTimeLine.map(i =>
-                        <div className={styles.timeline} style={{top: `${(i*LINESPACE-11)}px`}}></div>
-                    )}
+                    
                     {dailysObj && dailysObj.map((daily) => {
-                        if (daily.allDay == true) return null
+                        if (daily.allday == true) return null
                         else
                         return (
                             <div className={styles.daily} style={{
@@ -117,89 +117,4 @@ const Calendar2 = (props) => {
 
 
 
-export default Calendar2;
-
-    //         <div className={styles.body}>
-    //             {dailys && dailys.map(daily => <div>{daily.start.dateTime.slice(11, 16)}</div>)}
-    //         </div>
-
-                //     <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox} style={{ backgroundColor: "pink" }}>
-                //         <div style={{ height: "10px", fontSize: "9px" }}>{dailys && dailys[1].summary}</div>
-                //         <div className={styles.line}></div>
-                //         <div style={{ height: "10px", fontSize: "9px" }}>시간</div>
-                //     </div>
-                // </div>
-                // <div className={styles.timeline}><span>AM</span><span>1</span>
-                //     <div className={styles.linebox} style={{ backgroundColor: "skyblue" }}>
-                //         <div style={{ height: "10px", fontSize: "5px" }}><span style={{ fontSize: '5px' }} >기획A팀</span></div>
-                //         <div className={styles.line} style={{display: 'none'}}></div>
-                //         <div style={{ height: "10px", fontSize: "9px" }}>시간2</div>
-                //     </div>
-                // </div>
-                //                 <div className={styles.timeline}><span>AM</span><span>2</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>3</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>4</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
-                //                                 <div className={styles.timeline}><span>AM</span><span>12</span>
-                //     <div className={styles.linebox}><div className={styles.line}></div></div>
-                // </div>
+export default React.memo(Calendar2);
