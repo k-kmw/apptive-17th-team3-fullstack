@@ -46,15 +46,16 @@ function App() {
         // console.log(data);
         if (!!data.length) {
             for (let i = 0; i < data.length; i++) {
-                // console.log(data[i]);
+                console.log(data[i]);
                 getScheduleNum(data[i]);
             }
         }
     }, [data]);
 
     const getScheduleNum = async (projectInfo) => {
-        const res = await axios.get(`http://localhost:4000/api/p/events?projectID=${projectInfo.projectID}`);
-        console.log(res);
+        const encoded_url = encodeURIComponent(projectInfo.projectID);
+        const res = await axios.get(`http://localhost:4000/api/p/events?projectID=${encoded_url}`);
+
         setNumOfSchedule((cur) => [...cur, {title: projectInfo.title, num: res.data.length }]);
         // console.log(numOfSchedule);
     }

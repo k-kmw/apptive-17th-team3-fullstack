@@ -5,8 +5,8 @@ import styles from './projectInfo.module.css'
 const ProjectInfo = ({ id, openForm, data }) => {
     const [projectInfo, setProjectInfo] = useState();
     const getProjectInfo = async () => {
-        const res = await axios.get(`http://localhost:4000/api/p/events?projectID=${id}`);
-        // console.log(res);
+        const encoded_url = encodeURIComponent(id);
+        const res = await axios.get(`http://localhost:4000/api/p/events?projectID=${encoded_url}`);
         setProjectInfo(res.data);
     }
     useEffect(() => {
