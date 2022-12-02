@@ -14,18 +14,22 @@ export default async (req, res) => {
     auth.setCredentials({refresh_token : refresh_token});
    
     const calendar = google.calendar({version: 'v3', auth});
-    let {projectID, eventID, title, start, end, location, description, status, allday} = req.body;
+    const {projectID, title, start, end, hour, minute, description, allday, status} = req.body;
+    let startTime, endTime;
     if(allday == "on"){
-        start = `${start}T00:00:00+09:00`;
-        end = `${end}T23:59:59+09:00`;
+        startTime = `${start}T00:00:00+09:00`;
+        endTime = `${end}T23:59:59+09:00`;
+    }
+    else{
+        startTime = `${start}T${hour[0]}:${minute[0]}:00+09:00`;
+        endTime   = `${end}T${hour[1]}:${minute[1]}:00+09:00`;
     }
 
     const event = {
         "summary": title,
         "description": description,
-        "start": {'dateTime': start, 'timeZone': 'Asia/Seoul'},
-        "end": {'dateTime': end,'timeZone': 'Asia/Seoul'},
-        "location": location,
+        "start": {'dateTime': startTime, 'timeZone': 'Asia/Seoul'},
+        "end": {'dateTime': endTime,'timeZone': 'Asia/Seoul'},
         'extendedProperties' : {'private' : {'status': status}},
     };
     

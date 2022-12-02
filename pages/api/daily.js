@@ -37,6 +37,7 @@ export default async (req, res) => {
                         allday: allday,
                         start: e.start,
                         end: e.end,
+                        id: e.id,
                         status: e.extendedProperties?.private?.status,
                     };
                 });

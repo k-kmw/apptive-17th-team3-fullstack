@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "@mobiscroll/react": "https://npm.mobiscroll.com/@mobiscroll/react-trial/-/react-trial-5.19.2.tgz",
+        "axios": "^1.2.0",
         "chart.js": "^4.0.1",
         "googleapis": "^108.0.0",
         "mobiscroll-react": "^4.0.0",
