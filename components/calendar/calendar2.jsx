@@ -2,62 +2,28 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styles from './calendar2.module.css';
 
-const Calendar2 = ({openForm}) => {
-    const [dailys, setDailys] = useState();
-    const [dailysObj, setDailysObj] = useState();
+const Calendar2 = ({openForm, dailysObj, LINESPACE}) => {
     let now = new Date();
-    const week = ['일', '월', '화', '수', '목', '금', '토']
-    const getDailys = async () => {
-        const res = await axios.get(`http://localhost:4000/api/daily`);
-        // console.log(res);
-        setDailys(res.data);
-    }
-    useEffect(() => {
-        getDailys();
-    }, [])
-    const displayTimes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-    const forTimeLine = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
-    const LINESPACE = 32.3
-
-    useEffect(() => {
-        const dailysObj = dailys && dailys.map(daily => ({
-        "allday":  daily.allday,
-        "id": daily.created,
-        "startDate": !(daily.allDay==true) && daily.start,
-        "endDate": !(daily.allDay==true) && daily.end,
-        "startHour": !(daily.allDay==true) && parseInt(daily.start.dateTime.slice(11, 13)),
-        "endHour": !(daily.allDay==true) && parseInt(daily.end.dateTime.slice(11, 13)),
-        "startMinute":!(daily.allDay==true) && daily.start.dateTime.slice(14, 16),
-        "endMinute":!(daily.allDay==true) && daily.end.dateTime.slice(14, 16),
-        "height": !(daily.allDay==true) && (parseInt(daily.end.dateTime.slice(11, 13)) - parseInt(daily.start.dateTime.slice(11, 13))) * LINESPACE + (parseInt(daily.end.dateTime.slice(14, 16)) - parseInt(daily.start.dateTime.slice(14, 16))) / 60 * LINESPACE,
-        "title": daily.summary,
-        "color": daily.color,
-        "allDay": daily.allDay,
-        // "count": 1,
-        }))
-        setDailysObj(dailysObj)
-        // dailysObj && calDupDaily(dailysObj)
-    }, [dailys])
-
-    // console.log(dailysObj)
-    // dailysObj && console.log(dailysObj[1].startDate < dailysObj[2].startDate)
-    // dailysObj && console.log(dailysObj[1].startDate, dailysObj[2].startDate)
-    
+    const week = ['일', '월', '화', '수', '목', '금', '토'];
+    const displayTimes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+    const forTimeLine = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
     
     const calDupDaily = (dailysObj) => {
         dailysObj.map(daily => {
-            let posNum = 0
+            let posNum = 1
             for (let i = 0; i < dailysObj.length; i++){
                 if ((daily.startDate <= dailysObj[i].endDate) && (daily.endDate >= dailysObj[i].startDate)) {
                     if (daily == dailysObj[i])
                         continue
-                    daily['count'] += 1
-                    daily['posNum'] = ++posNum
-                    dailysObj[i]['posNum'] = ++posNum
+                    daily['count'] += 1;
+                    daily['posNum'] = posNum;
+                    posNum += 1;
+                    if(dailysObj[i]['posNum'] != posNum)
+                        dailysObj[i]['posNum'] = posNum;
                 }
             }
         })
-        // console.log(dailysObj)
+        console.log(dailysObj)
     }
     
 

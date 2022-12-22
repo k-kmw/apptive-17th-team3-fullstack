@@ -41,8 +41,8 @@ export default async (req, res) => {
                 console.log('There was an error contacting the Calendar service: ' + err);
                 return;
             }
-           // res.redirect('/');
-           res.status(200).send(event.id);
+           res.redirect('/');
+        //    res.status(200).send(event.id);
         }
     );
 };
