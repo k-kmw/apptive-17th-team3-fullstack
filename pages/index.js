@@ -15,13 +15,15 @@ import RecentProject from '../components/recent_project/recent_project';
 function App() {
     const [isFormOpen, setIsFormOpen] = useState(false); // form open/close
     const [isProjectFormOpen, setIsFormProjectOpen] = useState(false);
-    const [projectName, setProjectName] = useState("");
+    const [projectName, setProjectName] = useState();
     const [projectID, setProjectID] = useState("");
     const [data, setData] = useState([]);
     const [numOfSchedule, setNumOfSchedule] = useState([]);
     const [sortedData, setSortedData] = useState([]);
     const [dailys, setDailys] = useState();
     const [dailysObj, setDailysObj] = useState();
+    const [projectTitleToIdObject, setProjectTitleToIdObject] = useState();
+    const [currentTime, setCurrentTime] = useState();
     const { data: session } = useSession()
     const formRef = useRef();
 
@@ -50,10 +52,10 @@ function App() {
     // }, [])
 
     useEffect(() => {
-        getData();
+        getData(); // project 리스트 받아오기
         getDailys(); // calendar 일정 받아오기
+        timer();
     }, [])
-
 
     useEffect(() => {
         // console.log(data);
@@ -62,7 +64,12 @@ function App() {
                 // console.log(data[i]);
                 getScheduleNum(data[i]);
             }
+        } // doughnut차트 프로젝트별 일정 개수 
+        const titleIdObj = {};
+        for (let i = 0; i < data.length; i++) {
+            titleIdObj[data[i].title] = data[i].projectID;
         }
+        setProjectTitleToIdObject(titleIdObj);
     }, [data]);
 
     useEffect(() => {
@@ -70,6 +77,16 @@ function App() {
         setSortedData(sorted);
     }, [numOfSchedule]);
 
+    const timer = () => {
+        const date = new Date();
+        setCurrentTime(date);
+    }
+
+    const getCurrentTime = () => {
+        setInterval(timer, 1000 * 60)
+    }
+
+    getCurrentTime();
     const LINESPACE = 32.3; // calendar 줄간격
     useEffect(() => { // calender 일정 객체 생성
         const dailysObj = dailys && dailys.map(daily => ({
@@ -130,11 +147,13 @@ function App() {
 
     const closeForm = (e) => { // form 닫기
         setIsFormOpen(false);
+        setProjectName(null);
     }
 
     let form_or_calendar;
         if (isFormOpen) {
-            form_or_calendar = (<Form closeForm={closeForm} projectID={projectID} projectName={projectName} formRef={formRef} />);
+            form_or_calendar = (<Form closeForm={closeForm} projectID={projectID} projectName={projectName} formRef={formRef}
+                projectTitleToIdObject={projectTitleToIdObject} currentTime={currentTime} />);
             // state에 저장한 것을 props로 내려줌
             // project name을 클릭이벤트로 받아서
         }
@@ -142,7 +161,7 @@ function App() {
             form_or_calendar = (<FormForNewProject closeFormForProject={ closeFormForProject } formRef={formRef} />);
         }
         else {
-            form_or_calendar = (<Calendar2 openForm={openForm} dailysObj={dailysObj} LINESPACE={LINESPACE} />);
+            form_or_calendar = (<Calendar2 openForm={openForm} dailysObj={dailysObj} LINESPACE={LINESPACE} currentTime={currentTime} />);
         }
 
     return (
@@ -159,4 +178,4 @@ function App() {
     );
 }
 
-export default App;
+export default React.memo(App);

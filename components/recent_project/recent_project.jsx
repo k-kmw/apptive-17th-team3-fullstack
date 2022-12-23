@@ -22,13 +22,13 @@ function RecentProject(){
     // css 정렬하는거 방법은 알겠는데 어떻게 적용해야하는지 모르겠음 
     return(
       <div className={styles.recentAll}>
-          <text className={styles.title}>
+          <div className={styles.title}>
               최근 작업
-          </text>
+          </div>
             
           <div className={styles.columnName}>
               <span style={{width:"11.5%"}}>상태</span>
-              <span style={{width:"24%"}}>기한</span>
+                <span style={{ width: "24%", marginRight: "3px"}}>기한</span>
               <span style={{ width:"32%"}}>생성일</span>
               <span></span>
           </div> 

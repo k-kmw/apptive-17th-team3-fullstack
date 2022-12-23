@@ -9,4 +9,28 @@
   border-radius: 15px;
   /* 나중에 바꿀코드 */
   height: 20%;
+
+  text-align: center;
+  overflow: hidden;
+}
+
+.title {
+  /* text-align: left; */
+  margin-left: 20px;
+  width: 18%;
+}
+
+.start {
+  text-align: left;
+  width: 25%;
+}
+
+.end {
+  text-align: left;
+  width: 24%;
+}
+
+.status {
+  text-align: left;
+  width: 11%;
 }

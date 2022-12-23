@@ -30,10 +30,10 @@ function ProjectInfoRow({data}) {
 
     return(
       <div className={styles.ProjectInfoRow}>
-            <span>{title}</span>      
-            <span>{start[0]}년 {start[1]}월 {start[2].slice(0,2)}일</span> 
-            <span>{end[0]}년 {end[1]}월 {end[2].slice(0,2)}일</span> 
-            <span style={{color:statusColor, fontWeight:'700',fontSize: '16px'}}>{status}</span>
+            <div className={styles.title}><span>{title}</span></div>     
+            <div className={styles.start}><span>{start[0]}년 {start[1]}월 {start[2].slice(0,2)}일</span></div>
+            <div className={styles.end}><span>{end[0]}년 {end[1]}월 {end[2].slice(0,2)}일</span></div>
+            <div className={styles.status}><span style={{color:statusColor, fontWeight:'700',fontSize: '16px'}}>{status}</span></div>
             
       </div>
     );

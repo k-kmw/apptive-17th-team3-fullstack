@@ -2,8 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styles from './calendar2.module.css';
 
-const Calendar2 = ({openForm, dailysObj, LINESPACE}) => {
-    let now = new Date();
+const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime}) => {
     const week = ['일', '월', '화', '수', '목', '금', '토'];
     const displayTimes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     const forTimeLine = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
@@ -30,9 +29,9 @@ const Calendar2 = ({openForm, dailysObj, LINESPACE}) => {
     return (
         <div className={styles.calendar}>
             <div className={styles.header}>
-                <div>{now.getMonth() + 1}월 {now.getDate()}일</div>
+                <div>{currentTime && currentTime.getMonth() + 1}월 {currentTime && currentTime.getDate()}일</div>
                 <div className={styles.weekAndBtn}>
-                    <p className={styles.week}>{week[now.getDay()]}요일</p>
+                    <p className={styles.week}>{week[currentTime && currentTime.getDay()]}요일</p>
                     <form>
                         <button onClick={openForm} className={styles.btn}>+일정 추가하기</button>
                     </form>
