@@ -24,8 +24,14 @@ const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime}) => {
         })
         console.log(dailysObj)
     }
-    
-
+    const now = currentTime && new Date(currentTime.getTime() + 1000 * 60 * 60 * 9).toISOString().slice(0, 10);
+    // console.log(dailysObj);
+    // console.log(new Date(currentTime.getTime()+ 1000 * 60 * 60 * 9).toISOString().slice(0, 10));
+    // console.log(dailysObj[0].endDate.dateTime.slice(0, 10));
+    // console.log(dailysObj && dailysObj[0].startDate.dateTime.slice(0, 10) < now && now < dailysObj && dailysObj[0].endDate.dateTime.slice(0, 10) )
+    // console.log(dailysObj[2].startDate.dateTime);
+    // console.log(dailysObj[2].endDate.dateTime);
+    // console.log(dailysObj[2].startDate.dateTime.slice(0, 10) == dailysObj[2].endDate.dateTime.slice(0, 10));
     return (
         <div className={styles.calendar}>
             <div className={styles.header}>
@@ -38,7 +44,8 @@ const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime}) => {
                 </div>
                 <div className={styles.allday}>
                     <span className={styles.allDayBanner}>하루 종일</span>
-                    {dailysObj && dailysObj.map((daily) => daily.allday ? <span className={styles.allDayTitle}>{daily.title}</span> : '')}
+                    {dailysObj && dailysObj.map((daily) => daily.allday 
+                        ? <span className={styles.allDayTitle}>{daily.title}</span> : '')}
                 </div>
             </div>
 
@@ -58,19 +65,28 @@ const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime}) => {
                     )}
                     
                     {dailysObj && dailysObj.map((daily) => {
-                        if (daily.allday == true) return null
+                        if (daily.allday == true)
+                            return null
                         else
                         return (
                             <div className={styles.daily} style={{
-                                top: `${LINESPACE * (daily.startHour + 1) + parseInt(daily.startMinute) / 60 * LINESPACE - 11}px`,
+                                top: `${(daily.startDate.dateTime.slice(0, 10) != daily.endDate.dateTime.slice(0, 10) && now == daily.endDate.dateTime.slice(0, 10)) ?
+                                    21 : LINESPACE * (daily.startHour + 1) + parseInt(daily.startMinute) / 60 * LINESPACE - 11}px`,
                                 // left: `${daily.posNum > 1 ? daily.posNum*(100/(daily.count)) : null}px`,
+                                left: '12px',
                                 right: `${daily.posNum > 1 ? 0 : null}px`,
                                 height: `${daily.height}px`,
                                 backgroundColor: `${daily.color}`,
-                                width: `${100/(daily.count)}%`
+                                width: `${90/(daily.count)}%`
                             }} key={daily.id}>
                                 <div className={styles.title}>{daily.title}</div>
-                                <div className={styles.dailyTime}>{daily.startHour}:{daily.startMinute} ~ {daily.endHour}:{daily.endMinute}</div>
+                                <div className={styles.dailyTime}> {(daily.startDate.dateTime.slice(0, 10) != daily.endDate.dateTime.slice(0, 10) && now == daily.startDate.dateTime.slice(0, 10)) ?
+                                    daily.startHour + ':' + daily.startMinute + '~' : null}
+                                    {(daily.startDate.dateTime.slice(0, 10) != daily.endDate.dateTime.slice(0, 10) && now == daily.endDate.dateTime.slice(0, 10)) ?
+                                        '~' + daily.endHour + ':' + daily.endMinute : null}
+                                    {(daily.startDate.dateTime.slice(0, 10) == daily.endDate.dateTime.slice(0, 10)) ?
+                                        daily.startHour + ':' + daily.startMinute + '~' + daily.endHour + ':' + daily.endMinute: null}
+                                </div>
                             </div>)
                 })}
                 

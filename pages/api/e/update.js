@@ -14,7 +14,7 @@ export default async (req, res) => {
     auth.setCredentials({refresh_token : refresh_token});
    
     const calendar = google.calendar({version: 'v3', auth});
-    const {projectID, title, start, end, hour, minute, description, allday, status} = req.body;
+    const {projectID, eventID, title, start, end, hour, minute, description, allday, status} = req.body;
     let startTime, endTime;
     if(allday == "on"){
         startTime = `${start}T00:00:00+09:00`;
