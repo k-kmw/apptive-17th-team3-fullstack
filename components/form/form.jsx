@@ -4,10 +4,11 @@ import styles from './form.module.css'
 import Hour from './hour';
 import Minute from './minute';
 
-function Form({projectID, projectName, closeForm, formRef}) {
+function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObject, currentTime}) {
   const [focus, setFocus] = useState(false);
   const [ischeckTime, setIscheckTime] = useState(false);
-
+  const [title, setTitle] = useState("");
+  const [titleToID, setTitleToID] = useState();
   // selection custom
     const focusSelection = () => {
         setFocus(true);
@@ -22,20 +23,42 @@ function Form({projectID, projectName, closeForm, formRef}) {
     setIscheckTime(!ischeckTime);
   }
 
+  const titleChange = (e) => {
+    setTitle(e.target.value);
+  }
+
+  useEffect(() => {
+    if (projectID === '') {
+      // console.log(projectTitleToIdObject[title]);
+      setTitleToID(projectTitleToIdObject[title]);
+      // console.log(projectID);
+    }
+  }, [title]);
+
+  useEffect(() => {
+    document.getElementById('start').value = currentTime && currentTime.toISOString().substring(0, 10);
+    !projectName ? document.getElementById('end').value = currentTime && currentTime.toISOString().substring(0, 10) : null;
+    document.getElementById('hour').value = currentTime && currentTime.getHours();
+    if (currentTime && currentTime.getMinutes() % 5 !== 0) {
+      document.getElementById('minute').value = currentTime && currentTime.getMinutes() - (currentTime && currentTime.getMinutes() % 5);
+    } else {
+      document.getElementById('minute').value = currentTime && currentTime.getMinutes();
+    }
+  }, [currentTime]);
+
 
   return (
     <div className={styles.container}>
-      {/* <form action={projectName == null ? "http://localhost:4000/api/p/insert" : "http://localhost:4000/api/e/insert"} */}
       <form action="http://localhost:4000/api/e/insert" method="POST" className={styles.project_form} ref={formRef}>
-          <input type="hidden" name="projectID" value={projectID}/>
-          {projectName && <input type="hidden" name="projectName" value={projectName} />}
+          <input type="hidden" name="projectID" value={projectID === "" ? titleToID : projectID} />
+          {/* {projectName && <input type="hidden" name="projectName" value={projectName} />} */}
           <label htmlFor="title" className={styles.text}>프로젝트 명</label>
-          <input type="text" id='title' name='title'
+          <input type="text" id='projectName' name="projectName"
           className={styles.input}
             required
-            value={projectName !== null ? projectName : undefined}
-            disabled = {projectName!==null ? true : false
-            }
+            value={projectName ? projectName : null}
+            disabled={projectName ? true : false}
+            onChange={titleChange}
         />
         
         <label htmlFor="title" className={styles.text}>상세 작업 명</label>

@@ -2,9 +2,8 @@ import React from 'react';
 import ProjectInfo from '../project_info/projectInfo';
 import styles from './create_project.module.css';
 
-const CreateProject = ({ openForm, data }) => {
+const CreateProject = ({ openForm, sortedData, openFormForProject }) => {
     let cnt = 0;
-    
     return (
         // <button onClick={() => window.open('http://www.goolge.com', 'window_name', 'width=430,height=500,location=no,status=no,scrollbars=yes') }>button</button>
         <div className={styles.projectAll}>
@@ -13,7 +12,7 @@ const CreateProject = ({ openForm, data }) => {
                 <p className={styles.text}>현재 진행중인 프로젝트 총 현황을 파악하고 새로운<br></br>프로젝트를 진행해보세요</p>
                 <div className={styles.newProject}>
                     <button className={styles.newProjectBtn}
-                        onClick={openForm}>
+                        onClick={openFormForProject}>
                         <span className={styles.btnImg}>+</span>
                         <span className={styles.btnText}>CREATE NEW PROJECT</span>
                     </button>
@@ -21,7 +20,7 @@ const CreateProject = ({ openForm, data }) => {
             </div>
 
             <div className={styles.project}>
-                {data.map((item) => {
+                {sortedData.map((item) => {
                     // console.log(item);
                     if (cnt === 3)
                         return;
