@@ -8,19 +8,13 @@ const ProjectInfo = ({ id, openForm, data }) => {
         const encoded_url = encodeURIComponent(id);
         // const res = await axios.get(`http://localhost:4000/api/p/events?projectID=${encoded_url}`);
 
-        fetch(`/api/p/events?projectID=${encoded_url}`)
-            .then((response) => response.json())
+        axios.get(`/api/p/events?projectID=${encoded_url}`)
             .then((data) => setProjectInfo(data));
         
-        // console.log(res.data);
-        // console.log(test_res);
-        
-        // setProjectInfo(res.data);
     }
     useEffect(() => {
         getProjectInfo();
     }, [])
-    // projectInfo && console.log('project', projectInfo.lists.length);
     return (
         <div className={styles.info}>
             <p className={styles.title}>{data && data.title}</p>

@@ -4,9 +4,9 @@ import styles from '../styles/App.module.css'
 import React, { useEffect, useRef, useState } from 'react';
 import { useSession } from "next-auth/react"
 
-import CreateProject from   '../components/create_porject/createProject';
-import Navbar        from          '../components/navbar/navbar';
-import Form          from            '../components/form/form';
+import CreateProject from '../components/create_porject/createProject';
+import Navbar from '../components/navbar/navbar';
+import Form from '../components/form/form';
 import Calendar2 from '../components/calendar/calendar2';
 import Charts from '../components/chart/charts';
 import FormForNewProject from '../components/form/formForNewProject';
@@ -30,12 +30,10 @@ function App() {
     const getData = async () => {
         const res = await axios.get(`http://localhost:4000/api/p/list`);
         setData(res.data);
-        // console.log(res.data);
     }
 
     const getDailys = async () => {
         const res = await axios.get(`http://localhost:4000/api/daily`);
-        // console.log(res);
         setDailys(res.data);
     }
 
@@ -78,32 +76,43 @@ function App() {
     }, [numOfSchedule]);
 
     const timer = () => {
-        const date = new Date();
-        setCurrentTime(date);
+        const koreaNow = new Date((new Date()).getTime());
+        setCurrentTime(koreaNow);
     }
 
     const getCurrentTime = () => {
         setInterval(timer, 1000 * 60)
     }
-
     getCurrentTime();
+
+    // dailys && console.log(dailys);
+    // console.log(now);
     const LINESPACE = 32.3; // calendar 줄간격
     useEffect(() => { // calender 일정 객체 생성
+        const now = currentTime && new Date(currentTime.getTime() + 1000 * 60 * 60 * 9).toISOString().slice(0, 10);
         const dailysObj = dailys && dailys.map(daily => ({
-        "allday":  daily.allday,
-        "id": daily.created,
-        "startDate": !(daily.allDay==true) && daily.start,
-        "endDate": !(daily.allDay==true) && daily.end,
-        "startHour": !(daily.allDay==true) && parseInt(daily.start.dateTime.slice(11, 13)),
-        "endHour": !(daily.allDay==true) && parseInt(daily.end.dateTime.slice(11, 13)),
-        "startMinute":!(daily.allDay==true) && daily.start.dateTime.slice(14, 16),
-        "endMinute":!(daily.allDay==true) && daily.end.dateTime.slice(14, 16),
-        "height": !(daily.allDay==true) && (parseInt(daily.end.dateTime.slice(11, 13)) - parseInt(daily.start.dateTime.slice(11, 13))) * LINESPACE + (parseInt(daily.end.dateTime.slice(14, 16)) - parseInt(daily.start.dateTime.slice(14, 16))) / 60 * LINESPACE,
-        "title": daily.summary,
-        "color": daily.color,
-        "allDay": daily.allDay,
-        "count": 1,
-        "posNum": 0,
+            "allday": (daily.start.dateTime.slice(0, 10) !== now) && (daily.end.dateTime.slice(0, 10) != now)
+                ? true : daily.allday,
+            "id": daily.created,
+            "startDate": !(daily.allDay == true) && daily.start,
+            "endDate": !(daily.allDay == true) && daily.end,
+            "startHour": !(daily.allDay == true) && parseInt(daily.start.dateTime.slice(11, 13)),
+            "endHour": !(daily.allDay == true) && parseInt(daily.end.dateTime.slice(11, 13)),
+            "startMinute": !(daily.allDay == true) && daily.start.dateTime.slice(14, 16),
+            "endMinute": !(daily.allDay == true) && daily.end.dateTime.slice(14, 16),
+            "height": (!(daily.allDay == true) && (daily.end.dateTime.slice(0, 10) != daily.start.dateTime.slice(0, 10)) && (now == daily.end.dateTime.slice(0, 10))) ? 
+                ((parseInt(daily.end.dateTime.slice(11, 13)) - 0) * LINESPACE
+                + (parseInt(daily.end.dateTime.slice(14, 16) - 0)) / 60 * LINESPACE) :
+                (daily.end.dateTime.slice(0, 10) != daily.start.dateTime.slice(0, 10)) && (now == daily.start.dateTime.slice(0, 10)) ?
+                    ((24 - parseInt(daily.start.dateTime.slice(11, 13))) * LINESPACE
+                    + (59 - parseInt(daily.start.dateTime.slice(14, 16))) / 60 * LINESPACE) :
+                ((parseInt(daily.end.dateTime.slice(11, 13)) - parseInt(daily.start.dateTime.slice(11, 13))) * LINESPACE
+                + (parseInt(daily.end.dateTime.slice(14, 16)) - parseInt(daily.start.dateTime.slice(14, 16))) / 60 * LINESPACE),
+            "title": daily.summary,
+            "color": daily.color,
+            "allDay": daily.allDay,
+            "count": 1,
+            "posNum": 0,
         }))
         setDailysObj(dailysObj)
         // dailysObj && calDupDaily(dailysObj)
@@ -113,9 +122,9 @@ function App() {
     const getScheduleNum = async (projectInfo) => { // doughnut 차트 프로젝트별 일정 개수
         const encoded_url = encodeURIComponent(projectInfo.projectID);
         const res = await axios.get(`http://localhost:4000/api/p/events?projectID=${encoded_url}`);
-        setNumOfSchedule((cur) => [...cur, {title: projectInfo.title, num: res.data.length, projectID: projectInfo.projectID}]);
+        setNumOfSchedule((cur) => [...cur, { title: projectInfo.title, num: res.data.length, projectID: projectInfo.projectID }]);
     }
-    
+
 
     const openForm = (name, projectID, e) => { // form open시키는 함수
         if (!session) {
@@ -151,27 +160,27 @@ function App() {
     }
 
     let form_or_calendar;
-        if (isFormOpen) {
-            form_or_calendar = (<Form closeForm={closeForm} projectID={projectID} projectName={projectName} formRef={formRef}
-                projectTitleToIdObject={projectTitleToIdObject} currentTime={currentTime} />);
-            // state에 저장한 것을 props로 내려줌
-            // project name을 클릭이벤트로 받아서
-        }
-        else if (isProjectFormOpen) {
-            form_or_calendar = (<FormForNewProject closeFormForProject={ closeFormForProject } formRef={formRef} />);
-        }
-        else {
-            form_or_calendar = (<Calendar2 openForm={openForm} dailysObj={dailysObj} LINESPACE={LINESPACE} currentTime={currentTime} />);
-        }
+    if (isFormOpen) {
+        form_or_calendar = (<Form closeForm={closeForm} projectID={projectID} projectName={projectName} formRef={formRef}
+            projectTitleToIdObject={projectTitleToIdObject} currentTime={currentTime} />);
+        // state에 저장한 것을 props로 내려줌
+        // project name을 클릭이벤트로 받아서
+    }
+    else if (isProjectFormOpen) {
+        form_or_calendar = (<FormForNewProject closeFormForProject={closeFormForProject} formRef={formRef} />);
+    }
+    else {
+        form_or_calendar = (<Calendar2 openForm={openForm} dailysObj={dailysObj} LINESPACE={LINESPACE} currentTime={currentTime} />);
+    }
 
     return (
         <div className={styles.container}>
             {/* {projectIDs.length !== 0 && console.log(projectIDs)} */}
-            <Navbar/>
+            <Navbar />
             <div className={styles.main}>
                 <CreateProject sortedData={sortedData} openFormForProject={openFormForProject} openForm={openForm} />
-                <RecentProject/>
-                <Charts data={data} numOfSchedule={numOfSchedule} />
+                <RecentProject />
+                <Charts numOfSchedule={numOfSchedule} />
             </div>
             {form_or_calendar}
         </div>

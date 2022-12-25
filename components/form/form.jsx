@@ -9,6 +9,10 @@ function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObjec
   const [ischeckTime, setIscheckTime] = useState(false);
   const [title, setTitle] = useState("");
   const [titleToID, setTitleToID] = useState();
+  const [startTime, setStartTime] = useState(currentTime.toISOString().substring(0, 10))
+  const [endTime, setEndTime] = useState()
+  const [hour, setHour] = useState()
+  const [minute, setMinute] = useState()
   // selection custom
     const focusSelection = () => {
         setFocus(true);
@@ -31,22 +35,30 @@ function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObjec
     if (projectID === '') {
       // console.log(projectTitleToIdObject[title]);
       setTitleToID(projectTitleToIdObject[title]);
-      // console.log(projectID);
     }
   }, [title]);
 
   useEffect(() => {
-    document.getElementById('start').value = currentTime && currentTime.toISOString().substring(0, 10);
-    !projectName ? document.getElementById('end').value = currentTime && currentTime.toISOString().substring(0, 10) : null;
-    document.getElementById('hour').value = currentTime && currentTime.getHours();
-    if (currentTime && currentTime.getMinutes() % 5 !== 0) {
-      document.getElementById('minute').value = currentTime && currentTime.getMinutes() - (currentTime && currentTime.getMinutes() % 5);
+    !projectName && setEndTime(new Date(currentTime.getTime()+ 1000 * 60 * 60 * 9).toISOString().substring(0, 10));
+    setHour(currentTime.getHours());
+    if (currentTime.getMinutes() % 5 !== 0) {
+      setMinute(currentTime.getMinutes() - ( currentTime.getMinutes() % 5));
     } else {
-      document.getElementById('minute').value = currentTime && currentTime.getMinutes();
+      setMinute(currentTime.getMinutes());
     }
-  }, [currentTime]);
+  }, []);
 
-
+  const changeTime = (e) => {
+    const id = e.target.id;
+    if (id == 'start')
+      setStartTime(e.target.value);
+    else if (id == 'end')
+      setEndTime(e.target.value);
+    else if (id == 'hour')
+      setHour(e.target.value);
+    else if (id == 'minute')
+      setMinute(e.target.value);
+}
   return (
     <div className={styles.container}>
       <form action="http://localhost:4000/api/e/insert" method="POST" className={styles.project_form} ref={formRef}>
@@ -71,17 +83,17 @@ function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObjec
         
         <div className={styles.date}>
           <label htmlFor="start" style={{marginRight: '14px'}}>시작일</label>
-          <input className={styles.inputDate} type="date" id='start' name="start" />
+          <input className={styles.inputDate} type="date" id='start' name="start" value={startTime} onChange={changeTime} />
         </div>
         
         <div className={styles.time}>
-            <Hour ischeckTime={ischeckTime}/>
-            <Minute ischeckTime={ischeckTime} />
+          <Hour ischeckTime={ischeckTime} hour={hour} changeTime={changeTime} />
+          <Minute ischeckTime={ischeckTime} minute={minute} changeTime={changeTime} />
         </div>        
         
         <div className={styles.date}>
           <label htmlFor="end" style={{marginRight: '14px'}}>종료일</label>            
-          <input className={styles.inputDate} type="date" id='end' name="end" />
+          <input className={styles.inputDate} type="date" id='end' name="end" value={endTime} onChange={changeTime} />
         </div>
         
             <div className={styles.time}>

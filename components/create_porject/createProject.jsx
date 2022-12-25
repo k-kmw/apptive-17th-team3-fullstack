@@ -5,7 +5,6 @@ import styles from './create_project.module.css';
 const CreateProject = ({ openForm, sortedData, openFormForProject }) => {
     let cnt = 0;
     return (
-        // <button onClick={() => window.open('http://www.goolge.com', 'window_name', 'width=430,height=500,location=no,status=no,scrollbars=yes') }>button</button>
         <div className={styles.projectAll}>
             <div className={styles.createProject}>
                 <h2>프로젝트를 새로 시작해보세요</h2>
