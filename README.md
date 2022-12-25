@@ -85,7 +85,7 @@ Without DB, Using Google Calendar API
      ```
      url : baseURL/api/e/insert
      param : {
-         title, start('2022-10-30T09:00:00-07:00'), end, projectID,
+         title, start(2022-05-16), end, hour([01, 16]), min([16, 50]) projectID, allday
          options : location, description, (더 넣고싶은거 있으면 말해주세요)
      }
      response : {
@@ -99,8 +99,7 @@ Without DB, Using Google Calendar API
      url : baseURL/api/e/update
      param : {
          eventID, projectID,
-         options : title, start, end, location, description, status
-         (바꾸고 싶은거만 보내주면 됩니다.)
+         options : title, start(2022-05-16), end, hour([01, 16]), min([16, 50]) projectID, allday, location, description, status
      }
      response : {
          status : 200,
