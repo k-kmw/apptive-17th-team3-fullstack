@@ -27,7 +27,8 @@ export default async (req, res) => {
                 timeMax: oneWeekLater.toISOString(),
                 singleEvents: true,
             });
-            return cal_res.data.items;
+            
+            return cal_res.data.items.map(obj => {return {...obj, projectID: cal.id};});
         })
     );
 
@@ -36,6 +37,7 @@ export default async (req, res) => {
         .sort((e1, e2) => e1.end.dateTime > e2.end.dateTime)
         .map(e => {
             return {
+                projectID : e.projectID,
                 status: e.status,
                 created: e.created,
                 updated: e.updated,
