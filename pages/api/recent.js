@@ -42,6 +42,7 @@ export default async (req, res) => {
                 summary: e.summary,
                 start: e.start,
                 end: e.end,
+                id: e.id
             };
         });
     res.status(200).json(data);
