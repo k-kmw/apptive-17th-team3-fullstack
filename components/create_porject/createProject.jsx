@@ -2,7 +2,7 @@ import React from 'react';
 import ProjectInfo from '../project_info/projectInfo';
 import styles from './create_project.module.css';
 
-const CreateProject = ({ openForm, sortedData, openFormForProject }) => {
+const CreateProject = ({ openForm, sortedData, openFormForProject, setUpdate, update }) => {
     let cnt = 0;
     return (
         <div className={styles.projectAll}>
@@ -24,7 +24,7 @@ const CreateProject = ({ openForm, sortedData, openFormForProject }) => {
                     if (cnt === 3)
                         return;
                     cnt++;
-                    return <ProjectInfo key={item.projectID} id={item.projectID} data={item} openForm={openForm}/> 
+                    return <ProjectInfo key={item.projectID} id={item.projectID} data={item} openForm={openForm} setUpdate={setUpdate} update={update}/> 
                 })}
 
             </div>

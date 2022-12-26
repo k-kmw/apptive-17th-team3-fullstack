@@ -9,7 +9,7 @@ function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObjec
   const [ischeckTime, setIscheckTime] = useState(false);
   const [title, setTitle] = useState("");
   const [titleToID, setTitleToID] = useState();
-  const [startTime, setStartTime] = useState(currentTime.toISOString().substring(0, 10))
+  const [startTime, setStartTime] = useState(new Date(currentTime.getTime()+ 1000 * 60 * 60 * 9).toISOString().substring(0, 10));
   const [endTime, setEndTime] = useState()
   const [hour, setHour] = useState()
   const [minute, setMinute] = useState()

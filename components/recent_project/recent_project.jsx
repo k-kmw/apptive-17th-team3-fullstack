@@ -3,7 +3,7 @@ import styles from'../recent_project/recent_project.module.css';
 import ProjectInfoRow from './ProjectInfoRow';
 import axios from 'axios';
 
-function RecentProject(){
+function RecentProject({currentTime, setUpdate, update}){
     let [data, setData] = useState([]);
     
     const getData = async() =>{
@@ -14,12 +14,11 @@ function RecentProject(){
     useEffect(() => {
       getData();
     },[])
-   
+
     
     let cnt = 0;
     const num = [0,1,2,3]
 
-    // css 정렬하는거 방법은 알겠는데 어떻게 적용해야하는지 모르겠음 
     return(
       <div className={styles.recentAll}>
           <div className={styles.title}>
@@ -38,7 +37,7 @@ function RecentProject(){
                   if (cnt === 4)
                       return;
                   cnt++;
-                  return <ProjectInfoRow data = {item}/>
+                return <ProjectInfoRow data={item} currentTime={currentTime} setUpdate={setUpdate} update={update} />
               })}
           </div>
       </div>

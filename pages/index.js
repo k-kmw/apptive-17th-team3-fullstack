@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import axios from 'axios';
 import styles from '../styles/App.module.css'
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSession } from "next-auth/react"
 
 import CreateProject from '../components/create_porject/createProject';
@@ -24,6 +24,7 @@ function App() {
     const [dailysObj, setDailysObj] = useState();
     const [projectTitleToIdObject, setProjectTitleToIdObject] = useState();
     const [currentTime, setCurrentTime] = useState();
+    const [update, setUpdate] = useState({});
     const { data: session } = useSession()
     const formRef = useRef();
 
@@ -36,18 +37,6 @@ function App() {
         const res = await axios.get(`http://localhost:4000/api/daily`);
         setDailys(res.data);
     }
-
-    // useEffect(() => {
-    //     async function getDataAndGetScheduleNum() {
-    //         await getData();
-    //         console.log(data);
-    //         for (let i = 0; i < data.length; i++) {
-    //             console.log(data[i]);
-    //             getScheduleNum(data[i].projectID);
-    //         }
-    //     }
-    //     getDataAndGetScheduleNum();
-    // }, [])
 
     useEffect(() => {
         getData(); // project 리스트 받아오기
@@ -178,8 +167,8 @@ function App() {
             {/* {projectIDs.length !== 0 && console.log(projectIDs)} */}
             <Navbar />
             <div className={styles.main}>
-                <CreateProject sortedData={sortedData} openFormForProject={openFormForProject} openForm={openForm} />
-                <RecentProject />
+                <CreateProject sortedData={sortedData} openFormForProject={openFormForProject} openForm={openForm} setUpdate={setUpdate} update={update}/>
+                <RecentProject currentTime={currentTime} setUpdate={setUpdate} update={update} />
                 <Charts numOfSchedule={numOfSchedule} />
             </div>
             {form_or_calendar}
