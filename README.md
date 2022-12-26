@@ -135,24 +135,23 @@ Without DB, Using Google Calendar API
         ```
 
 - api
-  1. daily(전체 프로젝트 당일 일정, 프로젝트 상관없이)
+  1. daily(당일 일정 받아오기)
      ```
      url : baseURL/api/daily
      param : {}
      response : {
          status : 200,
-         message : [{eventID,summary,description,location,start,end, color, created, status, allday}, ...]
+         message : [{color,created,updated,summary,allday,start,end,id,status}, ...]
      }
      backend_note :
      ```
-  2. recent(최근 작업 명 표시 ,전일~익일까지 현재 시간과 가장 근접한 작업 순으로 4개 표시)
+  2. recent(최근 작업 명 표시, 7일전~7일후 기간동안의 작업 받아오기 order by endTime)
      ```
      url : baseURL/api/recent
      param : {}
      response : {
          status : 200,
-         message : [{projectID,id,summary,start,end,created,updated}, ...]
+         message : [{projectID,status,updated,summary,start,end,id}, ...]
      }
-     backend_note : 전일~익일 간(총 3일) 일정이 4개가 안되는 경우 "no recent" 로 표시
-     예시(3일간 일정이 1개인 경우) =>  message : [{projectName,summary,description,location,start,end}, "no recent" ,"no recent" ,"no recent"]
+     backend_note : 
      ```

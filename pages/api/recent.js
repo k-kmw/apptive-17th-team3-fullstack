@@ -26,6 +26,8 @@ export default async (req, res) => {
                 timeMin: oneWeekBefore.toISOString(),
                 timeMax: oneWeekLater.toISOString(),
                 singleEvents: true,
+                timeZone : "Asia/Seoul",
+                orderBy : 'startTime',
             });
             
             return cal_res.data.items.map(obj => {return {...obj, projectID: cal.id};});
@@ -34,7 +36,7 @@ export default async (req, res) => {
 
     const data = twoWeekEvents.flat()
         .filter(e => e.start.dateTime != null)
-        .sort((e1, e2) => e1.end.dateTime > e2.end.dateTime)
+        .sort((e1, e2) => e1.end.dateTime < e2.end.dateTime)
         .map(e => {
             return {
                 projectID : e.projectID,
@@ -47,5 +49,7 @@ export default async (req, res) => {
                 id: e.id
             };
         });
+
+    
     res.status(200).json(data);
 };
