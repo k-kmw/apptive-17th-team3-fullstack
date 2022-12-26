@@ -23,6 +23,7 @@ export default async (req, res) => {
                 timeMax: new Date(new Date().setHours(23, 59, 59, 999)).toISOString(),
                 singleEvents: true,
                 orderBy: 'startTime',
+                timeZone: 'Asia/Seoul',
             });
 
             return cal_res.data.items

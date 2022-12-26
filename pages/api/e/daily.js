@@ -38,6 +38,7 @@ export default async (req, res) => {
             location : e.location,
             start: e.start.dateTime,
             end : e.end.dateTime,
+            status: e.extendedProperties?.private?.status,
             
             }
         }
