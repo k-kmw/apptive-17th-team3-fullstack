@@ -40,11 +40,7 @@ export default async (req, res) => {
         .map(e => {
             return {
                 projectID : e.projectID,
-<<<<<<< HEAD
-                status: e.status,
-=======
                 status: e.extendedProperties?.private?.status,
->>>>>>> 518450e7358dc818f4ad5e318bd545b6612997b9
                 created: e.created,
                 updated: e.updated,
                 summary: e.summary,

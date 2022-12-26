@@ -12,6 +12,7 @@ const ProjectInfo = ({ id, openForm, data }) => {
             .then((data) => setProjectInfo(data));
         
     }
+    console.log(projectInfo);
     useEffect(() => {
         getProjectInfo();
     }, [])
