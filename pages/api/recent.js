@@ -36,15 +36,11 @@ export default async (req, res) => {
 
     const data = twoWeekEvents.flat()
         .filter(e => e.start.dateTime != null)
-        .sort((e1, e2) => e1.end.dateTime < e2.end.dateTime)
+        .sort((e1, e2) => e1.end.dateTime > e2.end.dateTime ? 1 : -1)
         .map(e => {
             return {
                 projectID : e.projectID,
-<<<<<<< HEAD
-                status: e.status,
-=======
                 status: e.extendedProperties?.private?.status,
->>>>>>> 518450e7358dc818f4ad5e318bd545b6612997b9
                 created: e.created,
                 updated: e.updated,
                 summary: e.summary,
