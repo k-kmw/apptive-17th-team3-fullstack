@@ -22,12 +22,12 @@ Without DB, Using Google Calendar API
      url : baseURL/api/p/list
      param : {}
      response : {
-         status : 200,
-         message : [{projectid, title, description}, ...]
+        status : 200,
+        message : [{projectid, title, description, color}, ...]
      }
      backend_note : calendar.calendarlist.list, 프로젝트 일정만 가져오기?
      ```
-  2. 프로젝트 내 일정들 받아오기
+  2. 프로젝트 내 일정들 받아오기(events)
      ```
      url : baseURL/api/p/events
      param : {
@@ -49,17 +49,13 @@ Without DB, Using Google Calendar API
          title, description
          options : location
      }
-     response : projectID
+     response : redirect to '/'
      backend_note : calendar.calendars.insert
      ```
   4. update
      ```
      url : baseURL/api/p/update
-     param : {
-         projectID
-         options : location, title, description
-         (바꾸고 싶은거만 보내주면 됩니다.)
-     }
+     param : {projectID, location, title, description}
      response : {
          status : 200,
          message : "success"
@@ -69,12 +65,10 @@ Without DB, Using Google Calendar API
   5. delete
      ```
      url : baseURL/api/p/delete
-     param : {
-         projectID
-     }
+     param : {projectID}
      response : {
          status : 200,
-         message : ...
+         message : success
      }
      backend_note : calendar.calendars.delete
      ```
@@ -85,12 +79,12 @@ Without DB, Using Google Calendar API
      ```
      url : baseURL/api/e/insert
      param : {
-         title, start(2022-05-16), end, hour([01, 16]), min([16, 50]) projectID, allday
-         options : location, description, (더 넣고싶은거 있으면 말해주세요)
+         title, start(2022-05-16), end, hour([01, 16]), min([16, 50]) projectID
+         options : location, description, allday
      }
      response : {
-         status : 200,
-         message : eventID
+        status : 200,
+        message : redirect to '/'
      }
      backend_note : calendar.events.insert
      ```
@@ -98,8 +92,8 @@ Without DB, Using Google Calendar API
      ```
      url : baseURL/api/e/update
      param : {
-         eventID, projectID,
-         options : title, start(2022-05-16), end, hour([01, 16]), min([16, 50]) projectID, allday, location, description, status
+         eventID, projectID, title, start(2022-05-16), end, hour([01, 16]), min([16, 50]), 
+        option: allday, location, description, status
      }
      response : {
          status : 200,
@@ -108,21 +102,16 @@ Without DB, Using Google Calendar API
      backend_note : calendar.events.patch
      ```
   3. delete
-
      ```
      url : baseURL/api/e/delete
-     param : {
-         projectID, eventID
-     }
+     param : {projectID, eventID}
      response : {
          status : 200,
-         message : ...
+         message : "success"
      }
      backend_note : calendar.events.delete
      ```
-
   4. daily(프로젝트별 당일 일정)
-
      ```
      url : baseURL/api/e/daily
      param : {
@@ -133,17 +122,26 @@ Without DB, Using Google Calendar API
          message : [{projectName,summary,description,location,start,end},...]
      }
      backend_note :
-
      ```
+    5. status_update
+        ```
+        url : baseURL/api/e/status_update
+        param : {eventID, projectID, status}
+        response : {
+            status : 200,
+            message : "success"
+        }
+        backend_note : calendar.events.patch
+        ```
 
 - api
   1. daily(전체 프로젝트 당일 일정, 프로젝트 상관없이)
      ```
      url : baseURL/api/daily
-     param : {date (YYYY-MM-DD 형식)}
+     param : {}
      response : {
          status : 200,
-         message : [{projectName,summary,description,location,start,end}, ...]
+         message : [{eventID,summary,description,location,start,end, color, created, status, allday}, ...]
      }
      backend_note :
      ```
@@ -153,7 +151,7 @@ Without DB, Using Google Calendar API
      param : {}
      response : {
          status : 200,
-         message : [{projectName,summary,description,location,start,end}, ...]
+         message : [{projectID,id,summary,start,end,created,updated}, ...]
      }
      backend_note : 전일~익일 간(총 3일) 일정이 4개가 안되는 경우 "no recent" 로 표시
      예시(3일간 일정이 1개인 경우) =>  message : [{projectName,summary,description,location,start,end}, "no recent" ,"no recent" ,"no recent"]
