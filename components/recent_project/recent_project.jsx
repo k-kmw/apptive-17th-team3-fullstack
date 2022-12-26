@@ -10,7 +10,7 @@ function RecentProject(){
       const res = await axios.get(`http://localhost:4000/api/recent`);
       setData(res.data)
   }
-
+  // console.log(data);
     useEffect(() => {
       getData();
     },[])
@@ -46,4 +46,4 @@ function RecentProject(){
     );
 }
 
-export default RecentProject
+export default React.memo(RecentProject);

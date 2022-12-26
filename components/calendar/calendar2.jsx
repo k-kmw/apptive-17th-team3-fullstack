@@ -73,7 +73,7 @@ const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime}) => {
                                 top: `${(daily.startDate.dateTime.slice(0, 10) != daily.endDate.dateTime.slice(0, 10) && now == daily.endDate.dateTime.slice(0, 10)) ?
                                     21 : LINESPACE * (daily.startHour + 1) + parseInt(daily.startMinute) / 60 * LINESPACE - 11}px`,
                                 // left: `${daily.posNum > 1 ? daily.posNum*(100/(daily.count)) : null}px`,
-                                left: '12px',
+                                left: '10px',
                                 right: `${daily.posNum > 1 ? 0 : null}px`,
                                 height: `${daily.height}px`,
                                 backgroundColor: `${daily.color}`,

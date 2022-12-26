@@ -1,4 +1,5 @@
 import { getToken } from 'next-auth/jwt';
+import { resolve } from 'path/win32';
 const {google} = require('googleapis');
 
 const [secret,clientId,clientSecret,apiKey] = [
@@ -24,7 +25,7 @@ export default async (req, res) => {
                 console.log('There was an error contacting the Calendar service: ' + err);
                 return;
             }
-            res.status(200).send("success");
+            return res.status(200).send("success");
         }
     );
 };
