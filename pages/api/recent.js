@@ -36,7 +36,7 @@ export default async (req, res) => {
 
     const data = twoWeekEvents.flat()
         .filter(e => e.start.dateTime != null)
-        .sort((e1, e2) => e1.end.dateTime < e2.end.dateTime)
+        .sort((e1, e2) => e1.end.dateTime > e2.end.dateTime ? 1 : -1)
         .map(e => {
             return {
                 projectID : e.projectID,

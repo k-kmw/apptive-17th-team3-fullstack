@@ -123,16 +123,16 @@ Without DB, Using Google Calendar API
      }
      backend_note :
      ```
-    5. status_update
-        ```
-        url : baseURL/api/e/status_update
-        param : {eventID, projectID, status}
-        response : {
-            status : 200,
-            message : "success"
-        }
-        backend_note : calendar.events.patch
-        ```
+  5. status_update
+    ```
+    url : baseURL/api/e/status_update
+    param : {eventID, projectID, status}
+    response : {
+        status : 200,
+        message : "success"
+    }
+    backend_note : calendar.events.patch
+    ```
 
 - api
   1. daily(당일 일정 받아오기)
