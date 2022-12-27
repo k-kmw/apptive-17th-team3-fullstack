@@ -65,9 +65,6 @@ export default async (req, res) => {
 //     sequence: 0,
 //     reminders: { useDefault: false },
 //     eventType: 'default'
-<<<<<<< HEAD
-// }
-=======
 // }
 
 // projectID: vfldkg6gmbpo93qdf2ku34v8f0@group.calendar.google.com
@@ -80,4 +77,3 @@ export default async (req, res) => {
 // hour: 02
 // minute: 00
 // description: ㅁ
->>>>>>> full
