@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { redirect } from 'next/dist/server/api-utils';
 import React, { useRef } from 'react';
 import { useState, useEffect } from 'react';
@@ -59,13 +60,37 @@ function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObjec
       setHour(e.target.value);
     else if (id == 'minute')
       setMinute(e.target.value);
-}
+  }
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    const projectId = projectID === "" ? titleToID : projectID
+    const hours = [formRef.current[5].value, formRef.current[8].value];
+    const minutes = [formRef.current[6].value, formRef.current[9].value];
+    axios.post('/api/e/insert', {
+      projectID: projectId,
+      projectName: formRef.current[1].value,
+      title: formRef.current[2].value,
+      allday: ischeckTime,
+      start: formRef.current[4].value,
+      hour: hours,
+      minute: minutes,
+      end: formRef.current[7].value,
+      description: formRef.current[10].value,
+    }).then(res => {
+        if (res.status == 200) {
+          window.location.href = '/'
+        }
+      }
+    )
+  }
+
   return (
     <div className={styles.container}>
-      <form action="/api/e/insert" method="POST" className={styles.project_form} ref={formRef}>
+      <form className={styles.project_form} ref={formRef} onSubmit={submitForm}>
           <input type="hidden" name="projectID" value={projectID === "" ? titleToID : projectID} />
           {/* {projectName && <input type="hidden" name="projectName" value={projectName} />} */}
-          <label htmlFor="title" className={styles.text}>프로젝트 명</label>
+          <label htmlFor="projectName" className={styles.text}>프로젝트 명</label>
           <input type="text" id='projectName' name="projectName"
           className={styles.input}
             required
@@ -97,11 +122,11 @@ function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObjec
           <input className={styles.inputDate} type="date" id='end' name="end" value={endTime} onChange={changeTime} />
         </div>
         
-            <div className={styles.time}>
-                <Hour ischeckTime={ischeckTime}/>
-                <Minute ischeckTime={ischeckTime} />          
-            </div>                  
-            <label htmlFor="description" className={styles.text}>메모</label>      
+        <div className={styles.time}>
+            <Hour ischeckTime={ischeckTime}/>
+            <Minute ischeckTime={ischeckTime} />          
+        </div>                  
+        <label htmlFor="description" className={styles.text}>메모</label>      
         <textarea className={styles.memo} name="description" id="description" cols="30" rows="10"></textarea>
         
         <div className={styles.btns}> 

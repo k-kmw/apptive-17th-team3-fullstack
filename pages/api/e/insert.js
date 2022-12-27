@@ -17,7 +17,7 @@ export default async (req, res) => {
 
     const {projectID, title, start, end, hour, minute, description, allday} = req.body;
     let startTime, endTime;
-    if(allday == "on"){
+    if(allday == true){
         startTime = `${start}T00:00:00+09:00`;
         endTime = `${end}T23:59:59+09:00`;
     }
@@ -41,7 +41,7 @@ export default async (req, res) => {
                 console.log('There was an error contacting the Calendar service: ' + err);
                 return;
             }
-           res.status(200).send(event.id);
+        res.status(200).send(event.id);
         }
     );
 };

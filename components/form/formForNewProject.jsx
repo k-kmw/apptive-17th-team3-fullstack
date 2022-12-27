@@ -1,10 +1,23 @@
+import axios from 'axios';
 import React from 'react';
 import styles from './formForNewProject.module.css';
 
 const FormForNewProject = ({ closeFormForProject, formRef }) => {
+    
+    const submitForm = (e) => {
+    e.preventDefault();
+    axios.post('/api/p/insert', {
+        title: formRef.current[0].value,
+        description: formRef.current[1].value,
+    }).then(res => {
+        if (res.status == 200) {
+            window.location.href = '/'
+        }
+        })
+    }
     return (
         <div className={styles.container}>
-            <form action="/api/p/insert" method="POST" className={styles.project_form} ref={formRef}>
+            <form className={styles.project_form} ref={formRef} onSubmit={submitForm} >
                 <label htmlFor="title" className={styles.text}>프로젝트 명</label>
                 <input type="text" id='title' name='title' className={styles.input} required/>
                 

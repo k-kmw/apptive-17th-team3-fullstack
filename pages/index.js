@@ -37,7 +37,7 @@ function App() {
         const res = await axios.get(`/api/daily`);
         return setDailys(res.data);
     }
-    console.log(status)
+    
     useEffect(() => {
         if (status == 'authenticated') {
             getData(); // project 리스트 받아오기
@@ -80,7 +80,7 @@ function App() {
     useEffect(() => {
         getCurrentTime();
     }, []);
-    
+
     const getCurrentTime = () => {
         setInterval(timer, 1000 * 60)
     }

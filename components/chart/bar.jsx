@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, BarElement, Tooltip, Legend,LinearScale, Title } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 import axios from 'axios';
 
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Tooltip,
+  Legend
+);
 
 function BarChart({colors, status}) {
   let [dayOfSchedule, setDayOfSchedule] = useState([]);
@@ -132,19 +139,16 @@ function BarChart({colors, status}) {
         grid :{
           display : false
         },
-        max:max,
+        max: max,
         min:0,
         ticks : {
           stepsize : 1
         }
       }
     },
-
   }
   return (
-    <div>
-      <Bar options={options} type="line" data={data} style={{ width: '270px', height: "270px  " }}/>
-    </div>
+      <Bar options={options} type="line" data={data} style={{ width: '80%', height: "100%" }}/>
   );
 };
   
