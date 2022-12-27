@@ -15,7 +15,6 @@ function RecentProject({currentTime, setUpdate, update}){
       getData();
     },[])
 
-  console.log(data);
     let cnt = 0;
     return(
       <div className={styles.recentAll}>

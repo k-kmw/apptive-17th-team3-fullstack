@@ -1,5 +1,5 @@
 .container {
-    margin: 16px 16px 8px 0;
+    margin: 0 16px 8px 0;
     padding-top: 32px;
     width: 18%;
     display: flex;
@@ -65,10 +65,8 @@
     margin-top: 8px;
 }
 
-.userImg {
-    width: 25%;
-    height: 25%;
-    margin-left: 8px;
+.userText {
+    margin-right: 10px;
 }
 
 .name {

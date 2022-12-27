@@ -1,4 +1,13 @@
-.btn {
+.btnLogin {
     /* border: none; */
     background-color: transparent;
+    border: none;
+}
+
+.btnLogout {
+    width: 100px;
+    border-radius: 3px;
+    border: transparent;
+    padding: 10px;
+    background-color: lightblue;
 }
