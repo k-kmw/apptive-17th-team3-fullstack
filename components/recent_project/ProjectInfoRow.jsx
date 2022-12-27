@@ -48,7 +48,7 @@ function ProjectInfoRow({ data, currentTime, setUpdate, update }) {
     if (statusIndex == 2) {
       setStatusIndex(-1);
     }
-    await axios.patch('http://localhost:4000/api/e/status_update', {
+    await axios.patch('/api/e/status_update', {
       projectID: projectID,
       eventID: id,
       status: statusList[statusIndex],

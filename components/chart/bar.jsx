@@ -9,7 +9,7 @@ function BarChart({colors}) {
   let [dayOfSchedule, setDayOfSchedule] = useState([]);
 
   const getDayOfSchedule = async() =>{
-    const res = await axios.get(`http://localhost:4000/api/recent`);
+    const res = await axios.get(`/api/recent`);
     setDayOfSchedule(res.data)
   }
 
