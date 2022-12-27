@@ -5,7 +5,7 @@ import Chart from 'chart.js/auto';
 import axios from 'axios';
 
 
-function BarChart({colors, session}) {
+function BarChart({colors, status}) {
   let [dayOfSchedule, setDayOfSchedule] = useState([]);
 
   const getDayOfSchedule = async() =>{
@@ -14,10 +14,10 @@ function BarChart({colors, session}) {
   }
 
   useEffect(() => {
-    if (session) {
+    if (status == 'authenticated') {
       getDayOfSchedule(); 
     }
-  }, [session])
+  }, [status])
 
   // 현재 날짜 불러오기
   let now = new Date();

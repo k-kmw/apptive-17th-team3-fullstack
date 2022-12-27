@@ -25,32 +25,38 @@ function App() {
     const [projectTitleToIdObject, setProjectTitleToIdObject] = useState();
     const [currentTime, setCurrentTime] = useState();
     const [update, setUpdate] = useState({});
-    const { data: session } = useSession()
+    const { data: session, status } = useSession()
     const formRef = useRef();
 
     const getData = async () => {
         const res = await axios.get(`/api/p/list`);
-        setData(res.data);
+        return setData(res.data);
     }
 
     const getDailys = async () => {
         const res = await axios.get(`/api/daily`);
-        setDailys(res.data);
+        return setDailys(res.data);
     }
-
+    console.log(status)
     useEffect(() => {
-        if (session) {
+        if (status == 'authenticated') {
             getData(); // project 리스트 받아오기
-            getDailys(); // calendar 일정 받아오기   
+            getDailys(); // calendar 일정 받아오기 
         }
         timer();
-    }, [session])
+    }, [status])
+
+    const getScheduleNum = async (projectInfo) => { // doughnut 차트 프로젝트별 일정 개수
+        const encoded_url = encodeURIComponent(projectInfo.projectID);
+        const res = await axios.get(`/api/p/events?projectID=${encoded_url}`);
+        setNumOfSchedule((cur) => [...cur, { title: projectInfo.title, num: res.data.length, projectID: projectInfo.projectID }]);
+    }
 
     useEffect(() => {
         // console.log(data);
         if (!!data.length) {
             for (let i = 0; i < data.length; i++) {
-                // console.log(data[i]);
+
                 getScheduleNum(data[i]);
             }
         } // doughnut차트 프로젝트별 일정 개수 
@@ -71,10 +77,13 @@ function App() {
         setCurrentTime(koreaNow);
     }
 
+    useEffect(() => {
+        getCurrentTime();
+    }, []);
+    
     const getCurrentTime = () => {
         setInterval(timer, 1000 * 60)
     }
-    getCurrentTime();
 
     // dailys && console.log(dailys);
     const LINESPACE = 32.3; // calendar 줄간격
@@ -107,13 +116,6 @@ function App() {
         setDailysObj(dailysObj)
         // dailysObj && calDupDaily(dailysObj)
     }, [dailys])
-
-
-    const getScheduleNum = async (projectInfo) => { // doughnut 차트 프로젝트별 일정 개수
-        const encoded_url = encodeURIComponent(projectInfo.projectID);
-        const res = await axios.get(`/api/p/events?projectID=${encoded_url}`);
-        setNumOfSchedule((cur) => [...cur, { title: projectInfo.title, num: res.data.length, projectID: projectInfo.projectID }]);
-    }
 
 
     const openForm = (name, projectID, e) => { // form open시키는 함수
@@ -169,8 +171,8 @@ function App() {
             <Navbar />
             <div className={styles.main}>
                 <CreateProject sortedData={sortedData} openFormForProject={openFormForProject} openForm={openForm} setUpdate={setUpdate} update={update}/>
-                <RecentProject currentTime={currentTime} setUpdate={setUpdate} update={update} session={session} />
-                <Charts numOfSchedule={numOfSchedule} session={session} />
+                <RecentProject currentTime={currentTime} setUpdate={setUpdate} update={update} status={status} />
+                <Charts numOfSchedule={numOfSchedule} status={status} />
             </div>
             {form_or_calendar}
         </div>

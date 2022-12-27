@@ -3,7 +3,7 @@ import styles from'../recent_project/recent_project.module.css';
 import ProjectInfoRow from './ProjectInfoRow';
 import axios from 'axios';
 
-function RecentProject({currentTime, setUpdate, update, session}){
+function RecentProject({currentTime, setUpdate, update, status}){
     let [data, setData] = useState([]);
     
     const getData = async() =>{
@@ -12,10 +12,10 @@ function RecentProject({currentTime, setUpdate, update, session}){
   }
   // console.log(data);
   useEffect(() => {
-    if (session) {
-      getData(); 
+    if (status == 'authenticated') {
+      getData(); // project 리스트 받아오기
     }
-    }, [session])
+  }, [status])
 
     let cnt = 0;
     return(
@@ -25,9 +25,9 @@ function RecentProject({currentTime, setUpdate, update, session}){
           </div>
             
           <div className={styles.columnName}>
-              <span style={{width:"11.5%"}}>상태</span>
-                <span style={{ width: "24%", marginRight: "3px"}}>기한</span>
-              <span style={{ width:"32%"}}>생성일</span>
+              <span style={{width:"11.5%"}}>&nbsp;&nbsp;상태</span>
+                <span style={{ width: "24%", marginRight: "3px"}}>마감일</span>
+              <span style={{ width:"32%"}}>시작일</span>
               <span></span>
           </div> 
 

@@ -13,9 +13,9 @@ function ProjectInfoRow({ data, currentTime, setUpdate, update }) {
     const title = data.summary; // string으로 저장
     const start =  data.start.dateTime.split('-'); //[2022,12,30]
     const end = data.end.dateTime.split('-');
-  
   useEffect(() => {
-    if ((currentTime == data.end.dateTime) && (new Date(currentTime.getTime()+ 1000 * 60 * 60 * 9).toISOString().substring(11, 16) == '00:00')) {
+    if (currentTime && (new Date(currentTime.getTime() + 1000 * 60 * 60 * 9).toISOString().substring(11, 16) == '00:00') // 12시가 될 때
+      && (new Date(currentTime.getTime() + 1000 * 60 * 60 * 9 - 1000 * 60 * 60 * 24).toISOString().slice(5, 10) == data.end.dateTime.slice(5, 10))) { // endTime == (currentTime - 1일)
       setStatus('만료');
       data.status = '만료';
     }
@@ -42,7 +42,7 @@ function ProjectInfoRow({ data, currentTime, setUpdate, update }) {
     else {
       setStatusColor('black');
     }
-  }, [])
+  }, [currentTime])
 
   const changeStatus = async (id, projectID) => {
     if (statusIndex == 2) {

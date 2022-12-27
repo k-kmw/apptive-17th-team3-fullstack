@@ -19,14 +19,12 @@ const CreateProject = ({ openForm, sortedData, openFormForProject, setUpdate, up
             </div>
 
             <div className={styles.project}>
-                {sortedData.map((item) => {
-                    // console.log(item);
+                {sortedData && sortedData.map((item) => {
                     if (cnt === 3)
                         return;
                     cnt++;
                     return <ProjectInfo key={item.projectID} id={item.projectID} data={item} openForm={openForm} setUpdate={setUpdate} update={update}/> 
                 })}
-
             </div>
         </div>
     )
