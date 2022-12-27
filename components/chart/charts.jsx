@@ -4,7 +4,7 @@ import styles from './charts.module.css';
 import BarChart from './bar';
 import randomColor from 'randomcolor';
 
-const Charts = ({numOfSchedule }) => {
+const Charts = ({numOfSchedule, session }) => {
     // const [colors, setColors] = useState();
     const nums = numOfSchedule && numOfSchedule.map((item) => item.num)
     const colors = [];
@@ -27,7 +27,7 @@ const Charts = ({numOfSchedule }) => {
                 <div className={styles.box}>
                     <p className={styles.text}>일별 작업 수</p>
                     <div className={styles.bar}>
-                        <BarChart colors={colors} />
+                        <BarChart colors={colors} session={session} />
                     </div>
                 </div>
 

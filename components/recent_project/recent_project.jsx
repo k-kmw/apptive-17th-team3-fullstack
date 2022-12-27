@@ -3,7 +3,7 @@ import styles from'../recent_project/recent_project.module.css';
 import ProjectInfoRow from './ProjectInfoRow';
 import axios from 'axios';
 
-function RecentProject({currentTime, setUpdate, update}){
+function RecentProject({currentTime, setUpdate, update, session}){
     let [data, setData] = useState([]);
     
     const getData = async() =>{
@@ -11,9 +11,11 @@ function RecentProject({currentTime, setUpdate, update}){
       setData(res.data);
   }
   // console.log(data);
-    useEffect(() => {
-      getData();
-    },[])
+  useEffect(() => {
+    if (session) {
+      getData(); 
+    }
+    }, [session])
 
     let cnt = 0;
     return(
