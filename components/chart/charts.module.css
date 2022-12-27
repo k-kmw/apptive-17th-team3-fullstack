@@ -6,12 +6,13 @@
     height: 500px;
     overflow: hidden;
     margin: 8px 0 32px 8px;
+    padding: 18px;
 }
 
 .areaText {
     margin: 20px 0 5px 20px;
-    font-weight: 900;
-    font-size: 18px;
+    font-weight: 600;
+    font-size: 20px;
     line-height: 24px;
     /* identical to box height */
     /* Main Blue */
@@ -37,7 +38,7 @@
 }
 
 .doughnut {
-    margin: 15px 0 30px 0;
+    margin-bottom: 10px;
     align-self: center;
 }
 
@@ -48,7 +49,7 @@
 
 .text {
     margin-left: 15px;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
     font-weight: 300;
     font-size: 15px;
     line-height: 24px;

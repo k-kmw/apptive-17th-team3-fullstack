@@ -22,7 +22,6 @@ const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime}) => {
                 }
             }
         })
-        console.log(dailysObj)
     }
     const now = currentTime && new Date(currentTime.getTime() + 1000 * 60 * 60 * 9).toISOString().slice(0, 10);
     // console.log(dailysObj);
@@ -32,6 +31,7 @@ const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime}) => {
     // console.log(dailysObj[2].startDate.dateTime);
     // console.log(dailysObj[2].endDate.dateTime);
     // console.log(dailysObj[2].startDate.dateTime.slice(0, 10) == dailysObj[2].endDate.dateTime.slice(0, 10));
+    // dailysObj && console.log(dailysObj);
     return (
         <div className={styles.calendar}>
             <div className={styles.header}>
@@ -45,7 +45,7 @@ const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime}) => {
                 <div className={styles.allday}>
                     <span className={styles.allDayBanner}>하루 종일</span>
                     {dailysObj && dailysObj.map((daily) => daily.allday 
-                        ? <span className={styles.allDayTitle}>{daily.title}</span> : '')}
+                        ? <span key={daily.id} className={styles.allDayTitle}>{daily.title}</span> : '')}
                 </div>
             </div>
 
@@ -53,15 +53,15 @@ const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime}) => {
             <div className={styles.body}>
                 <div className={styles.times}>
                     <div className={styles.time}><span className={styles.isDay}>AM</span><span style={{fontSize: '13px', fontWeight: '500'}}>12</span></div>
-                    {displayTimes.map(time => <div className={styles.time}>{time}</div>)}
+                    {displayTimes.map(time => <div key={time} className={styles.time}>{time}</div>)}
                     <div className={styles.time}><span className={styles.isDay}>PM</span><span style={{ fontSize: '13px', fontWeight: '500' }}>12</span></div>
-                    {displayTimes.map(time => <div className={styles.time}>{time}</div>)}                    
+                    {displayTimes.map(time => <div key={time} className={styles.time}>{time}</div>)}                    
                 </div>
 
 
                 <div className={styles.dailys}>
                     {forTimeLine.map(i =>
-                        <div className={styles.timeline} style={{top: `${i*LINESPACE-11}px`}}></div>
+                        <div key={i} className={styles.timeline} style={{top: `${i*LINESPACE-11}px`}}></div>
                     )}
                     
                     {dailysObj && dailysObj.map((daily) => {
@@ -77,7 +77,10 @@ const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime}) => {
                                 right: `${daily.posNum > 1 ? 0 : null}px`,
                                 height: `${daily.height}px`,
                                 backgroundColor: `${daily.color}`,
-                                width: `${90/(daily.count)}%`
+                                width: `${90 / (daily.count)}%`,
+                                display: `${(daily.startDate.dateTime.slice(0, 10) == daily.endDate.dateTime.slice(0, 10)) && (daily.endHour - daily.startHour <= 1) && (daily.endMinute - daily.startMinute <= 30) ? 'flex' : null}`,
+                                fontSize: `${(daily.startDate.dateTime.slice(0, 10) == daily.endDate.dateTime.slice(0, 10)) && (daily.endHour - daily.startHour < 1) ? '10px' : null}`,
+                                padding: `${(daily.startDate.dateTime.slice(0, 10) == daily.endDate.dateTime.slice(0, 10)) && (daily.endHour - daily.startHour <= 1) && (daily.endMinute - daily.startMinute <= 30) ? 0 : null}`,
                             }} key={daily.id}>
                                 <div className={styles.title}>{daily.title}</div>
                                 <div className={styles.dailyTime}> {(daily.startDate.dateTime.slice(0, 10) != daily.endDate.dateTime.slice(0, 10) && now == daily.startDate.dateTime.slice(0, 10)) ?

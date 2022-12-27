@@ -22,6 +22,10 @@ function ProjectInfoRow({ data, currentTime, setUpdate, update }) {
     else {
       setStatus(data.status);
     }
+    if (!data.status) {
+      setStatus('작업 전');
+      data.status = '작업 전';
+    }
 
     if (data.status == '작업 중') {
       setStatusColor('#3E9FFF');

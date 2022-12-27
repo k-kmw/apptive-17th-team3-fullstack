@@ -8,17 +8,15 @@ function RecentProject({currentTime, setUpdate, update}){
     
     const getData = async() =>{
       const res = await axios.get(`http://localhost:4000/api/recent`);
-      setData(res.data)
+      setData(res.data);
   }
   // console.log(data);
     useEffect(() => {
       getData();
     },[])
 
-    
+  console.log(data);
     let cnt = 0;
-    const num = [0,1,2,3]
-
     return(
       <div className={styles.recentAll}>
           <div className={styles.title}>
@@ -33,11 +31,11 @@ function RecentProject({currentTime, setUpdate, update}){
           </div> 
 
           <div className={styles.projectBox}>
-              {data&&data.map((item) => {
-                  if (cnt === 4)
-                      return;
-                  cnt++;
-                return <ProjectInfoRow data={item} currentTime={currentTime} setUpdate={setUpdate} update={update} />
+          {data && data.map((item) => {
+            if (cnt === 4)
+              return;
+            cnt++;
+            return <ProjectInfoRow key= {item.id} data={item} currentTime={currentTime} setUpdate={setUpdate} update={update} />
               })}
           </div>
       </div>

@@ -105,5 +105,11 @@
     font-size: 13px;
     /* color: #665B5B; */
     overflow: hidden;
+    padding: 2%;
+}
+
+.title {
+    margin-right: 5px;
+    font-weight: bold;
 }
 

@@ -75,14 +75,13 @@ function App() {
     getCurrentTime();
 
     // dailys && console.log(dailys);
-    // console.log(now);
     const LINESPACE = 32.3; // calendar 줄간격
     useEffect(() => { // calender 일정 객체 생성
         const now = currentTime && new Date(currentTime.getTime() + 1000 * 60 * 60 * 9).toISOString().slice(0, 10);
         const dailysObj = dailys && dailys.map(daily => ({
             "allday": (daily.start.dateTime.slice(0, 10) !== now) && (daily.end.dateTime.slice(0, 10) != now)
                 ? true : daily.allday,
-            "id": daily.created,
+            "id": daily.id,
             "startDate": !(daily.allDay == true) && daily.start,
             "endDate": !(daily.allDay == true) && daily.end,
             "startHour": !(daily.allDay == true) && parseInt(daily.start.dateTime.slice(11, 13)),
