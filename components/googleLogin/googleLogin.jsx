@@ -5,12 +5,11 @@ import styles from "./googleLogin.module.css";
 const GoogleButton = () => {
   const { data: session } = useSession()
   if (session)
-    return (<button className={styles.btn} onClick={() => signOut()}>Sign out</button>)
+    return (<button className={styles.btnLogout} onClick={() => signOut()}>Sign out</button>)
   
   return (
     <>
-      Not signed in <br />
-      <button className={styles.btn} onClick={() => signIn("google", {callbackUrl: '/'})}>Sign in with Google</button>
+      <button className={styles.btnLogin} onClick={() => signIn("google", {callbackUrl: '/'})}><img src='/googleBtn2.png'/></button>
     </>
   )
 };

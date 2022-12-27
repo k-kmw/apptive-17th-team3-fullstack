@@ -6,14 +6,14 @@ import axios from 'axios';
 function ProjectInfoRow({ data, currentTime, setUpdate, update }) {
   const [status, setStatus] = useState('작업 전');
   const [statusIndex, setStatusIndex] = useState(0);
-  const [statusList, setStatusList] = useState(['작업 중', '완료', '만료', '작업 전']);
-  const [statusColorList, setStatusColorList] = useState(['#3E9FFF', '#87FF3E', '#FF3E3E', '#FF8F3E']);
+  const [statusList, setStatusList] = useState(['작업 중', '완료', '작업 전']);
+  const [statusColorList, setStatusColorList] = useState(['#3E9FFF', '#87FF3E', '#FF8F3E']);
   const [statusColor, setStatusColor] = useState('#FF8F3E');
     // console.log(data);
     const title = data.summary; // string으로 저장
     const start =  data.start.dateTime.split('-'); //[2022,12,30]
     const end = data.end.dateTime.split('-');
-
+  
   useEffect(() => {
     if ((currentTime == data.end.dateTime) && (new Date(currentTime.getTime()+ 1000 * 60 * 60 * 9).toISOString().substring(11, 16) == '00:00')) {
       setStatus('만료');
@@ -45,7 +45,7 @@ function ProjectInfoRow({ data, currentTime, setUpdate, update }) {
   }, [])
 
   const changeStatus = async (id, projectID) => {
-    if (statusIndex == 3) {
+    if (statusIndex == 2) {
       setStatusIndex(-1);
     }
     await axios.patch('/api/e/status_update', {

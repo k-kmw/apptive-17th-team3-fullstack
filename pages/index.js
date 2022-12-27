@@ -39,10 +39,12 @@ function App() {
     }
 
     useEffect(() => {
-        getData(); // project 리스트 받아오기
-        getDailys(); // calendar 일정 받아오기
+        if (session) {
+            getData(); // project 리스트 받아오기
+            getDailys(); // calendar 일정 받아오기   
+        }
         timer();
-    }, [])
+    }, [session])
 
     useEffect(() => {
         // console.log(data);
@@ -167,8 +169,8 @@ function App() {
             <Navbar />
             <div className={styles.main}>
                 <CreateProject sortedData={sortedData} openFormForProject={openFormForProject} openForm={openForm} setUpdate={setUpdate} update={update}/>
-                <RecentProject currentTime={currentTime} setUpdate={setUpdate} update={update} />
-                <Charts numOfSchedule={numOfSchedule} />
+                <RecentProject currentTime={currentTime} setUpdate={setUpdate} update={update} session={session} />
+                <Charts numOfSchedule={numOfSchedule} session={session} />
             </div>
             {form_or_calendar}
         </div>
