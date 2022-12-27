@@ -7,7 +7,7 @@ function RecentProject({currentTime, setUpdate, update}){
     let [data, setData] = useState([]);
     
     const getData = async() =>{
-      const res = await axios.get(`http://localhost:4000/api/recent`);
+      const res = await axios.get(`/api/recent`);
       setData(res.data);
   }
   // console.log(data);

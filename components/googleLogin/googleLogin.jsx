@@ -10,7 +10,7 @@ const GoogleButton = () => {
   return (
     <>
       Not signed in <br />
-      <button className={styles.btn} onClick={() => signIn("google", {callbackUrl: 'http://localhost:4000/'})}>Sign in with Google</button>
+      <button className={styles.btn} onClick={() => signIn("google", {callbackUrl: '/'})}>Sign in with Google</button>
     </>
   )
 };
