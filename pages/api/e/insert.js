@@ -31,7 +31,7 @@ export default async (req, res) => {
         'description': description,
         'start' : {'dateTime':startTime,'timeZone':'Asia/Seoul'},
         'end'  : {'dateTime' : endTime,'timeZone':'Asia/Seoul'},
-        'extendedProperties' : {'private' : {'status': 'test'}},
+        'extendedProperties' : {'private' : {'status': '작업 전'}},
     };
     
         calendar.events.insert(
@@ -41,7 +41,6 @@ export default async (req, res) => {
                 console.log('There was an error contacting the Calendar service: ' + err);
                 return;
             }
-        //    res.redirect('/');
            res.status(200).send(event.id);
         }
     );

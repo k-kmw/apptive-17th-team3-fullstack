@@ -24,7 +24,5 @@ export default async (req, res) => {
             "timeZone": "Asia/Seoul",   
         },
     });
-    // res.status(200).json(data);
     res.status(200).send(cal_res.data.id);
-    // res.redirect('/');
 };
