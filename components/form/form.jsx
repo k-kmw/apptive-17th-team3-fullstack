@@ -61,7 +61,7 @@ function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObjec
 }
   return (
     <div className={styles.container}>
-      <form action="http://localhost:4000/api/e/insert" method="POST" className={styles.project_form} ref={formRef}>
+      <form action="/api/e/insert" method="POST" className={styles.project_form} ref={formRef}>
           <input type="hidden" name="projectID" value={projectID === "" ? titleToID : projectID} />
           {/* {projectName && <input type="hidden" name="projectName" value={projectName} />} */}
           <label htmlFor="title" className={styles.text}>프로젝트 명</label>
