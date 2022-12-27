@@ -4,7 +4,7 @@ import styles from './formForNewProject.module.css';
 const FormForNewProject = ({ closeFormForProject, formRef }) => {
     return (
         <div className={styles.container}>
-            <form action="/api/p/insert" method="POST" className={styles.project_form} ref={formRef}>
+            <form action="https://ancient-fjord-87078.herokuapp.com/api/p/insert" method="POST" className={styles.project_form} ref={formRef}>
                 <label htmlFor="title" className={styles.text}>프로젝트 명</label>
                 <input type="text" id='title' name='title' className={styles.input} required/>
                 

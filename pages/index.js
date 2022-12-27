@@ -29,12 +29,12 @@ function App() {
     const formRef = useRef();
 
     const getData = async () => {
-        const res = await axios.get(`/api/p/list`);
+        const res = await axios.get(`https://ancient-fjord-87078.herokuapp.com/api/p/list`);
         setData(res.data);
     }
 
     const getDailys = async () => {
-        const res = await axios.get(`/api/daily`);
+        const res = await axios.get(`https://ancient-fjord-87078.herokuapp.com/api/daily`);
         setDailys(res.data);
     }
 
@@ -109,7 +109,7 @@ function App() {
 
     const getScheduleNum = async (projectInfo) => { // doughnut 차트 프로젝트별 일정 개수
         const encoded_url = encodeURIComponent(projectInfo.projectID);
-        const res = await axios.get(`/api/p/events?projectID=${encoded_url}`);
+        const res = await axios.get(`https://ancient-fjord-87078.herokuapp.com/api/p/events?projectID=${encoded_url}`);
         setNumOfSchedule((cur) => [...cur, { title: projectInfo.title, num: res.data.length, projectID: projectInfo.projectID }]);
     }
 

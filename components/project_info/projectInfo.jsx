@@ -7,8 +7,8 @@ const ProjectInfo = ({ id, openForm, data, update}) => {
     const [successSchedules, setSuccessSchedules] = useState();
     const getProjectInfo = async () => {
         const encoded_url = encodeURIComponent(id);
-        // const res = await axios.get(`/api/p/events?projectID=${encoded_url}`);
-        const res = await axios.get(`/api/p/events?projectID=${encoded_url}`)
+        // const res = await axios.get(`https://ancient-fjord-87078.herokuapp.com/api/p/events?projectID=${encoded_url}`);
+        const res = await axios.get(`https://ancient-fjord-87078.herokuapp.com/api/p/events?projectID=${encoded_url}`)
         setProjectInfo(res);
     }
     useEffect(() => {

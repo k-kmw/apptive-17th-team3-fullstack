@@ -9,7 +9,7 @@ function BarChart({colors}) {
   let [dayOfSchedule, setDayOfSchedule] = useState([]);
 
   const getDayOfSchedule = async() =>{
-    const res = await axios.get(`/api/recent`);
+    const res = await axios.get(`https://ancient-fjord-87078.herokuapp.com/api/recent`);
     setDayOfSchedule(res.data)
   }
 
