@@ -25,6 +25,6 @@ export default async (req, res) => {
         },
     });
     // res.status(200).json(data);
-    // res.send(cal_res.data.id);
-    res.redirect('/');
+    res.status(200).send(cal_res.data.id);
+    // res.redirect('/');
 };

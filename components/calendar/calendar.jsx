@@ -7,7 +7,7 @@ import styles from './calendar.module.css';
 //     let now = new Date();
 //     const week = ['일', '월', '화', '수', '목', '금', '토']
 //     const getDailys = async () => {
-//         const res = await axios.get(`https://ancient-fjord-87078.herokuapp.com/api/daily`);
+//         const res = await axios.get(`/api/daily`);
 //             setDailys(res.data);
 //     }
 //     useEffect(() => {
@@ -83,7 +83,7 @@ function Calendar() {
     // }, []);
     
     const getEvents = async () => {
-        const res = await axios.get('https://ancient-fjord-87078.herokuapp.com/api/daily');
+        const res = await axios.get('/api/daily');
         setEvents(res.data);
         // const events = res.data.lists.map((item) => {
         //     const obj = {};

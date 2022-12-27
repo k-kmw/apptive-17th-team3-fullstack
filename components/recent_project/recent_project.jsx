@@ -7,7 +7,7 @@ function RecentProject({currentTime, setUpdate, update}){
     let [data, setData] = useState([]);
     
     const getData = async() =>{
-      const res = await axios.get(`https://ancient-fjord-87078.herokuapp.com/api/recent`);
+      const res = await axios.get(`/api/recent`);
       setData(res.data);
   }
   // console.log(data);
