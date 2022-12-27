@@ -15,18 +15,22 @@ export default async (req, res) => {
    
     const calendar = google.calendar({version: 'v3', auth});
 
-    let {projectID, title, start, end, location, description, allday} = req.body;
+    const {projectID, title, start, end, hour, minute, description, allday} = req.body;
+    let startTime, endTime;
     if(allday == "on"){
-        start = `${start}T00:00:00+09:00`;
-        end = `${end}T23:59:59+09:00`;
+        startTime = `${start}T00:00:00+09:00`;
+        endTime = `${end}T23:59:59+09:00`;
+    }
+    else{
+        startTime = `${start}T${hour[0]}:${minute[0]}:00+09:00`;
+        endTime   = `${end}T${hour[1]}:${minute[1]}:00+09:00`;
     }
 
     var event = {
         'summary': title,
-        'location': location,
         'description': description,
-        'start' : {'dateTime':start,'timeZone':'Asia/Seoul'},
-        'end'  : {'dateTime' : end,'timeZone':'Asia/Seoul'},
+        'start' : {'dateTime':startTime,'timeZone':'Asia/Seoul'},
+        'end'  : {'dateTime' : endTime,'timeZone':'Asia/Seoul'},
         'extendedProperties' : {'private' : {'status': 'test'}},
     };
     
@@ -37,8 +41,8 @@ export default async (req, res) => {
                 console.log('There was an error contacting the Calendar service: ' + err);
                 return;
             }
-           // res.redirect('/');
-           res.status(200).send(event.id);
+           res.redirect('/');
+        //    res.status(200).send(event.id);
         }
     );
 };
@@ -61,4 +65,19 @@ export default async (req, res) => {
 //     sequence: 0,
 //     reminders: { useDefault: false },
 //     eventType: 'default'
+<<<<<<< HEAD
 // }
+=======
+// }
+
+// projectID: vfldkg6gmbpo93qdf2ku34v8f0@group.calendar.google.com
+// projectName: Project A
+// title: ㅁㅁ
+// start: 2022-12-02
+// hour: 01
+// minute: 00
+// end: 2022-12-02
+// hour: 02
+// minute: 00
+// description: ㅁ
+>>>>>>> full

@@ -33,8 +33,8 @@ export default async (req, res) => {
             location : e.location,
             start: e.start.dateTime,
             end : e.end.dateTime,
-            
-            }
+            status: e.extendedProperties?.private?.status,
+        }
     });
     //const percent = events.filter(e => e.status == "confirmed").length / events.length
     //res.json({percent : percent * 100, lists : events});

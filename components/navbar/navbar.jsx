@@ -1,3 +1,4 @@
+import React from "react";
 import { useSession } from "next-auth/react"
 import Image from 'next/image'
 
@@ -22,7 +23,7 @@ const Navbar = () => {
 
     return (
         <nav className={styles.container}>
-            <h1 className={styles.logo}>LOGO</h1>
+            <div className={styles.logo}><img className={styles.img} src="/logo.png"/></div>
             <ul className={styles.menubar}>
                 <li className={styles.menu}>대시보드</li>
                 <li className={styles.menu}>프로젝트</li>
@@ -36,4 +37,4 @@ const Navbar = () => {
     )
 };
 
-export default Navbar;
+export default React.memo(Navbar);

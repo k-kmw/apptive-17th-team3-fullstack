@@ -1,4 +1,5 @@
 import { getToken } from 'next-auth/jwt';
+import { resolve } from 'path/win32';
 const {google} = require('googleapis');
 
 const [secret,clientId,clientSecret,apiKey] = [
@@ -8,31 +9,15 @@ const [secret,clientId,clientSecret,apiKey] = [
 
 export default async (req, res) => {
     const token = await getToken({ req, secret });
-    let {access_token,id_token, refresh_token} = {...token};
+    let {refresh_token} = {...token};
     
     const auth = new google.auth.OAuth2(clientId, clientSecret);
     auth.setCredentials({refresh_token : refresh_token});
    
     const calendar = google.calendar({version: 'v3', auth});
-    const {projectID, eventID, title, start, end, hour, minute, description, allday, status} = req.body;
-    let startTime, endTime;
-    if(allday == "on"){
-        startTime = `${start}T00:00:00+09:00`;
-        endTime = `${end}T23:59:59+09:00`;
-    }
-    else{
-        startTime = `${start}T${hour[0]}:${minute[0]}:00+09:00`;
-        endTime   = `${end}T${hour[1]}:${minute[1]}:00+09:00`;
-    }
+    const {projectID, eventID, status} = req.body;
+    const event = {'extendedProperties' : {'private' : {'status': status}}};
 
-    const event = {
-        "summary": title,
-        "description": description,
-        "start": {'dateTime': startTime, 'timeZone': 'Asia/Seoul'},
-        "end": {'dateTime': endTime,'timeZone': 'Asia/Seoul'},
-        'extendedProperties' : {'private' : {'status': status}},
-    };
-    
     calendar.events.patch(
         {calendarId: projectID, eventId: eventID, requestBody: event}, 
         function(err, event) {
@@ -41,6 +26,7 @@ export default async (req, res) => {
                 return;
             }
             res.status(200).send("success");
+            // res.redirect('/');
         }
     );
 };

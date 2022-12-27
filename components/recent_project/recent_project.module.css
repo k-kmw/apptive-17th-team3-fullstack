@@ -1,0 +1,70 @@
+.recentAll{
+  display: flex;
+  flex-direction: column;
+  
+  justify-content: center;
+  margin: 8px 0 16px 8px;
+  padding : 16px 30px 16px 30px;
+  
+  /* 수정 */
+  height: 280px;  
+
+  /* 바꿀 코드 */
+  background: #FFFFFF;
+  /* Shadow */
+
+  box-shadow: 5px 0px 20px -3px rgba(0, 0, 0, 0.15);
+  border-radius: 25px;
+  overflow: hidden;
+}
+
+.title{
+  font-weight: 600;
+  font-size: 20px;
+  color: #3E9FFF;
+}
+
+.columnName{
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+
+  height : 8%;
+  font-size: 16px;
+  font-weight: 550;
+  margin-bottom: 14px;
+  margin-right: 23px;
+  color: #2C2C2C;
+}
+
+
+/* .t1{
+  background-color: #3E9FFF 
+}
+
+.t2{
+  background-color: darkgoldenrod;
+}
+
+.t3{
+  background-color: darkgreen;
+}
+
+.t4{
+  background-color: darkorange;
+} */
+
+/* .columnName:not(.recentAll){
+
+} */
+
+.projectBox{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* 바꿀 코드 */
+
+  /* 수정 */
+  height: 100%;
+  background: #FFFFFF;
+}

@@ -15,7 +15,7 @@ export default async (req, res) => {
    
     const calendar = google.calendar({version: 'v3', auth});
 
-    const {title, description, location} = req.query;
+    const {title, description, location} = req.body;
     const cal_res = await calendar.calendars.insert({
         requestBody: {
             "description": description,
@@ -25,5 +25,6 @@ export default async (req, res) => {
         },
     });
     // res.status(200).json(data);
-    res.send(cal_res.data.id);
+    // res.send(cal_res.data.id);
+    res.redirect('/');
 };
