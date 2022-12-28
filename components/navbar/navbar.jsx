@@ -21,14 +21,18 @@ const Navbar = () => {
         );
     }
 
+    const notyet = () => {
+        alert('서비스 준비중 입니다.')
+    }
+
     return (
         <nav className={styles.container}>
             <div className={styles.logo}><img className={styles.img} src="/logo.png"/></div>
             <ul className={styles.menubar}>
                 <li className={styles.menu}>대시보드</li>
-                <li className={styles.menu}>프로젝트</li>
-                <li className={styles.menu}>설정</li>
-                <li className={styles.menu}>도움말</li>
+                <li className={styles.menu} onClick={notyet}>프로젝트</li>
+                <li className={styles.menu} onClick={notyet}>설정</li>
+                <li className={styles.menu} onClick={notyet}>도움말</li>
             </ul>
             
             <GoogleButton />

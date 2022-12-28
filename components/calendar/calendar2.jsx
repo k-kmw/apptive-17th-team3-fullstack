@@ -34,8 +34,6 @@ const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime, update, setUpda
 
     const deleteDaily = (projectID, id, e) => {
         e.preventDefault();
-        // console.log(projectID);
-        // console.log(id);
         if (confirm('삭제하시겠습니까?') == false) {
             return;
         }

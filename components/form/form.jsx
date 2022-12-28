@@ -59,20 +59,21 @@ function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObjec
     const minutes = [formRef.current[6].value, formRef.current[9].value];
     const hoursNum = hours.map((hour) => parseInt(hour));
     const minutesNum = minutes.map((minute) => parseInt(minute));
-    if ((hoursNum[0] > hoursNum[1]) || (hoursNum[0] == hoursNum[1] && minutesNum[0] > minutesNum[1])) {
-      alert('날짜를 확인해주세요');
+    const start = formRef.current[4].value;
+    const end = formRef.current[7].value;
+    if ((start == end) && ((hoursNum[0] > hoursNum[1]) || (hoursNum[0] == hoursNum[1] && minutesNum[0] >= minutesNum[1]))) {
+      alert('시간을 확인해주세요');
       return;
     }
-    console.log(formRef.current[1].value);
     axios.post('/api/e/insert', {
       projectID: projectId,
       projectName: formRef.current[1].value,
       title: formRef.current[2].value,
       allday: ischeckTime,
-      start: formRef.current[4].value,
+      start: start,
       hour: hours,
       minute: minutes,
-      end: formRef.current[7].value,
+      end: end,
       description: formRef.current[10].value,
     }).then(res => {
         if (res.status == 200) {
