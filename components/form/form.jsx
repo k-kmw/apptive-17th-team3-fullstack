@@ -88,7 +88,7 @@ function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObjec
   return (
     <div className={styles.container}>
       <form className={styles.project_form} ref={formRef} onSubmit={submitForm}>
-          <input type="hidden" name="projectID" value={projectID === "" ? titleToID : projectID} />
+          <input type="hidden" name="projectID" />
           {/* {projectName && <input type="hidden" name="projectName" value={projectName} />} */}
           <label htmlFor="projectName" className={styles.text}>프로젝트 명</label>
           <input type="text" id='projectName' name="projectName"

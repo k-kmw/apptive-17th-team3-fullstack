@@ -18,9 +18,24 @@ function DoughnutChart({numOfSchedule, colors, nums }) {
       borderWidth: 1,
     },
   ],
-};
+  };
+    const options ={
+    responsive : true,
+    plugins: {
+      legend: {
+          labels: {
+              // This more specific font property overrides the global property
+              font: {size: 10},
+              padding : 10,
+          }, 
+          position : "bottom"
+      }
+      },
+    maintainAspectRatio: true,
+  }
+
   return (
-      <Doughnut data={Chartdata} />
+      <Doughnut data={Chartdata} options={options}/>
   );
 }
 

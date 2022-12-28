@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Chart as ChartJS, CategoryScale, BarElement, Tooltip, Legend,LinearScale, Title } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, BarElement, Tooltip, Legend,LinearScale, Title, Ticks } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 import axios from 'axios';
+import { bodyStreamToNodeStream } from 'next/dist/server/body-streams';
 
 ChartJS.register(
   CategoryScale,
@@ -12,19 +13,7 @@ ChartJS.register(
   Legend
 );
 
-function BarChart({colors, status}) {
-  let [dayOfSchedule, setDayOfSchedule] = useState([]);
-
-  const getDayOfSchedule = async() =>{
-    const res = await axios.get(`/api/recent`);
-    setDayOfSchedule(res.data)
-  }
-
-  useEffect(() => {
-    if (status == 'authenticated') {
-      getDayOfSchedule(); 
-    }
-  }, [status])
+function BarChart({colors, dayOfSchedule}) {
 
   // 현재 날짜 불러오기
   let now = new Date();
@@ -128,27 +117,48 @@ function BarChart({colors, status}) {
 
   // barchart 속성
   const options = {
-    responsive : false,
+    responsive: true,
+    maintainAspectRatio: true,
+    plugins: {
+      legend: {
+          labels: {
+              // This more specific font property overrides the global property
+              font: {size: 10},
+              padding : 5,
+          }, 
+          position : "bottom"
+      }
+    },
     scales: {
       x: {
         grid :{
-          display : false
+          display : false,
         },
+        axios : "x",
+        ticks : {
+          padding : 0,
+          font :{
+            size : 10
+          }
+        }
       },
       y:{
         grid :{
           display : false
         },
-        max: max,
-        min:0,
+        axios: "y",
         ticks : {
-          stepsize : 1
+          padding : 0,
+          font :{
+            size : 10
+          },
+          stepSize:1
         }
       }
     },
   }
   return (
-      <Bar options={options} type="line" data={data} style={{ width: '80%', height: "100%" }}/>
+      <Bar options={options} type="line" data={data} style={{ width: '90%', height: "100%"}}/>
   );
 };
   
