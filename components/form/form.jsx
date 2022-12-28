@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { redirect } from 'next/dist/server/api-utils';
 import React, { useRef } from 'react';
 import { useState, useEffect } from 'react';
 import styles from './form.module.css'
@@ -7,23 +6,14 @@ import Hour from './hour';
 import Minute from './minute';
 
 function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObject, currentTime}) {
-  const [focus, setFocus] = useState(false);
   const [ischeckTime, setIscheckTime] = useState(false);
   const [title, setTitle] = useState("");
   const [titleToID, setTitleToID] = useState();
   const [startTime, setStartTime] = useState(new Date(currentTime.getTime()+ 1000 * 60 * 60 * 9).toISOString().substring(0, 10));
-  const [endTime, setEndTime] = useState()
-  const [hour, setHour] = useState()
-  const [minute, setMinute] = useState()
-  // selection custom
-    const focusSelection = () => {
-        setFocus(true);
-    }
+  const [endTime, setEndTime] = useState("")
+  const [hour, setHour] = useState("")
+  const [minute, setMinute] = useState("")
 
-    const blurSelection = () => {
-        setFocus(false);
-  }
-  
   // 하루종일 체크시 설정
   const checkAlltime = () => {
     setIscheckTime(!ischeckTime);
@@ -67,6 +57,13 @@ function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObjec
     const projectId = projectID === "" ? titleToID : projectID
     const hours = [formRef.current[5].value, formRef.current[8].value];
     const minutes = [formRef.current[6].value, formRef.current[9].value];
+    const hoursNum = hours.map((hour) => parseInt(hour));
+    const minutesNum = minutes.map((minute) => parseInt(minute));
+    
+    if ((hoursNum[0] > hoursNum[1]) || (hoursNum[0] == hoursNum[1] && minutesNum[0] > minutesNum[1])) {
+      alert('날짜를 확인해주세요');
+      return;
+    }
     axios.post('/api/e/insert', {
       projectID: projectId,
       projectName: formRef.current[1].value,
@@ -94,7 +91,7 @@ function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObjec
           <input type="text" id='projectName' name="projectName"
           className={styles.input}
             required
-            value={projectName ? projectName : null}
+            value={projectName ? projectName : ''}
             disabled={projectName ? true : false}
             onChange={titleChange}
         />
@@ -124,7 +121,7 @@ function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObjec
         
         <div className={styles.time}>
             <Hour ischeckTime={ischeckTime}/>
-            <Minute ischeckTime={ischeckTime} />          
+            <Minute ischeckTime={ischeckTime}/>          
         </div>                  
         <label htmlFor="description" className={styles.text}>메모</label>      
         <textarea className={styles.memo} name="description" id="description" cols="30" rows="10"></textarea>

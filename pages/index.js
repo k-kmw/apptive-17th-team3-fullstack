@@ -170,15 +170,14 @@ function App() {
     }
     else {
         form_or_calendar = (<Calendar2 openForm={openForm} dailysObj={dailysObj} LINESPACE={LINESPACE} currentTime={currentTime}
-            setCalendarUpdate={setCalendarUpdate} calnedarUpdate={calnedarUpdate} />);
+            setCalendarUpdate={setCalendarUpdate} calnedarUpdate={calnedarUpdate} setUpdate={setProjectInfoUpdate} update={ProjectInfoUpdate}/>);
     }
 
     return (
         <div className={styles.container}>
-            {/* {projectIDs.length !== 0 && console.log(projectIDs)} */}
             <Navbar />
             <div className={styles.main}>
-                <CreateProject sortedData={sortedData} openFormForProject={openFormForProject} openForm={openForm} setUpdate={setProjectInfoUpdate} update={ProjectInfoUpdate}/>
+                <CreateProject sortedData={sortedData} openFormForProject={openFormForProject} openForm={openForm} update={ProjectInfoUpdate}/>
                 <RecentProject currentTime={currentTime} setUpdate={setProjectInfoUpdate} update={ProjectInfoUpdate} status={status} />
                 <Charts numOfSchedule={numOfSchedule} status={status} />
             </div>

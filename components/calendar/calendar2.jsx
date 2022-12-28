@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styles from './calendar2.module.css';
 
-const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime, calnedarUpdate, setCalendarUpdate}) => {
+const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime, update, setUpdate, calnedarUpdate, setCalendarUpdate}) => {
     const week = ['일', '월', '화', '수', '목', '금', '토'];
     const displayTimes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     const forTimeLine = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
@@ -36,15 +36,20 @@ const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime, calnedarUpdate,
         e.preventDefault();
         // console.log(projectID);
         // console.log(id);
-        confirm('삭제하시겠습니까?')
-        const encodedProjectID = encodeURIComponent(projectID);
-        const encodedeventID = encodeURIComponent(id);
-        axios.delete(`/api/e/delete?projectID=${encodedProjectID}&eventID=${encodedeventID}`)
-            .then(res => { 
-                if (res.status == 200) {
-                    setCalendarUpdate({...calnedarUpdate})
-                }
-            });
+        if (confirm('삭제하시겠습니까?') == false) {
+            return;
+        }
+        else {
+            const encodedProjectID = encodeURIComponent(projectID);
+            const encodedeventID = encodeURIComponent(id);
+            axios.delete(`/api/e/delete?projectID=${encodedProjectID}&eventID=${encodedeventID}`)
+                .then(res => { 
+                    if (res.status == 200) {
+                        setCalendarUpdate({ ...calnedarUpdate })
+                        setUpdate({ ...update });
+                    }
+                });
+        }
     }
 
     return (

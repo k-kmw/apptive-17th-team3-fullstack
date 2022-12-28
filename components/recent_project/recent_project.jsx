@@ -15,7 +15,7 @@ function RecentProject({currentTime, setUpdate, update, status}){
     if (status == 'authenticated') {
       getData(); // project 리스트 받아오기
     }
-  }, [status])
+  }, [status, update]);
 
     let cnt = 0;
     return(
