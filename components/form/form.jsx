@@ -25,7 +25,6 @@ function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObjec
 
   useEffect(() => {
     if (projectID === '') {
-      // console.log(projectTitleToIdObject[title]);
       setTitleToID(projectTitleToIdObject[title]);
     }
   }, [title]);
@@ -54,15 +53,20 @@ function Form({projectID, projectName, closeForm, formRef, projectTitleToIdObjec
 
   const submitForm = (e) => {
     e.preventDefault();
-    const projectId = projectID === "" ? titleToID : projectID
+    const projectId = (projectID === "") ? titleToID : projectID
     const hours = [formRef.current[5].value, formRef.current[8].value];
     const minutes = [formRef.current[6].value, formRef.current[9].value];
     const hoursNum = hours.map((hour) => parseInt(hour));
     const minutesNum = minutes.map((minute) => parseInt(minute));
     const start = formRef.current[4].value;
     const end = formRef.current[7].value;
+    const projectIds = Object.values(projectTitleToIdObject);
+    if (projectIds.indexOf(projectId) === -1) {
+      alert('일치하는 프로젝트명이 없습니다.')
+      return;
+    }
     if ((start == end) && ((hoursNum[0] > hoursNum[1]) || (hoursNum[0] == hoursNum[1] && minutesNum[0] >= minutesNum[1]))) {
-      alert('시간을 확인해주세요');
+      alert('시간을 확인해주세요.');
       return;
     }
     axios.post('/api/e/insert', {
