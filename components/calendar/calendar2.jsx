@@ -2,11 +2,10 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styles from './calendar2.module.css';
 
-const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime}) => {
+const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime, calnedarUpdate, setCalendarUpdate}) => {
     const week = ['일', '월', '화', '수', '목', '금', '토'];
     const displayTimes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     const forTimeLine = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
-    
     const calDupDaily = (dailysObj) => {
         dailysObj.map(daily => {
             let posNum = 1
@@ -32,6 +31,22 @@ const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime}) => {
     // console.log(dailysObj[2].endDate.dateTime);
     // console.log(dailysObj[2].startDate.dateTime.slice(0, 10) == dailysObj[2].endDate.dateTime.slice(0, 10));
     // dailysObj && console.log(dailysObj);
+
+    const deleteDaily = (projectID, id, e) => {
+        e.preventDefault();
+        // console.log(projectID);
+        // console.log(id);
+        confirm('삭제하시겠습니까?')
+        const encodedProjectID = encodeURIComponent(projectID);
+        const encodedeventID = encodeURIComponent(id);
+        axios.delete(`/api/e/delete?projectID=${encodedProjectID}&eventID=${encodedeventID}`)
+            .then(res => { 
+                if (res.status == 200) {
+                    setCalendarUpdate({...calnedarUpdate})
+                }
+            });
+    }
+
     return (
         <div className={styles.calendar}>
             <div className={styles.header}>
@@ -45,7 +60,7 @@ const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime}) => {
                 <div className={styles.allday}>
                     <span className={styles.allDayBanner}>하루 종일</span>
                     {dailysObj && dailysObj.map((daily) => daily.allday 
-                        ? <span key={daily.id} className={styles.allDayTitle}>{daily.title}</span> : '')}
+                        ? <span key={daily.id} onContextMenu={(e) => deleteDaily(daily.projectID, daily.id, e)} className={styles.allDayTitle}>{daily.title}</span> : '')}
                 </div>
             </div>
 
@@ -81,7 +96,7 @@ const Calendar2 = ({openForm, dailysObj, LINESPACE, currentTime}) => {
                                 display: `${(daily.startDate.dateTime.slice(0, 10) == daily.endDate.dateTime.slice(0, 10)) && (daily.endHour - daily.startHour <= 1) && (daily.endMinute - daily.startMinute <= 30) ? 'flex' : null}`,
                                 fontSize: `${(daily.startDate.dateTime.slice(0, 10) == daily.endDate.dateTime.slice(0, 10)) && (daily.endHour - daily.startHour < 1) ? '10px' : null}`,
                                 padding: `${(daily.startDate.dateTime.slice(0, 10) == daily.endDate.dateTime.slice(0, 10)) && (daily.endHour - daily.startHour <= 1) && (daily.endMinute - daily.startMinute <= 30) ? 0 : null}`,
-                            }} key={daily.id}>
+                            }} key={daily.id} onContextMenu={(e) => deleteDaily(daily.projectID, daily.id, e)} >
                                 <div className={styles.title}>{daily.title}</div>
                                 <div className={styles.dailyTime}> {(daily.startDate.dateTime.slice(0, 10) != daily.endDate.dateTime.slice(0, 10) && now == daily.startDate.dateTime.slice(0, 10)) ?
                                     daily.startHour + ':' + daily.startMinute + '~' : null}

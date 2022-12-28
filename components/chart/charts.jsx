@@ -36,7 +36,6 @@ const Charts = ({numOfSchedule, status }) => {
     }, [status])
 
     const averageNum = Math.round(dayOfSchedule.length / 14 * 10) / 10;
-    console.log(averageNum)
     return (
         <div className={styles.container}>
             <p className={styles.areaText}>PROJECT OVERVIEW</p>

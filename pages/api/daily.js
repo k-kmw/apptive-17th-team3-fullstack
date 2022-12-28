@@ -26,11 +26,12 @@ export default async (req, res) => {
                 timeZone: 'Asia/Seoul',
             });
 
-            return cal_res.data.items
+            return cal_res.data.items.map(obj => {return {...obj, projectID: cal.id};})
                 .filter(e => e.start.dateTime != null)
                 .map(e => {
                     const allday = (e.start.dateTime.includes(`00:00:00`) && e.end.dateTime.includes(`23:59:59`));
                     return {
+                        projectID: e.projectID,
                         color: cal.backgroundColor,
                         created: e.created,
                         updated: e.updated,

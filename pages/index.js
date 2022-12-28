@@ -24,7 +24,8 @@ function App() {
     const [dailysObj, setDailysObj] = useState();
     const [projectTitleToIdObject, setProjectTitleToIdObject] = useState();
     const [currentTime, setCurrentTime] = useState();
-    const [update, setUpdate] = useState({});
+    const [ProjectInfoUpdate, setProjectInfoUpdate] = useState({});
+    const [calnedarUpdate, setCalendarUpdate] = useState({});
     const { data: session, status } = useSession()
     const formRef = useRef();
 
@@ -46,6 +47,12 @@ function App() {
         timer();
     }, [status])
 
+    useEffect(() => {
+        if (status == 'authenticated') {
+            getDailys(); // calendar 일정 받아오기 
+        }
+    }, [calnedarUpdate])
+
     const getScheduleNum = async (projectInfo) => { // doughnut 차트 프로젝트별 일정 개수
         const encoded_url = encodeURIComponent(projectInfo.projectID);
         const res = await axios.get(`/api/p/events?projectID=${encoded_url}`);
@@ -56,7 +63,6 @@ function App() {
         // console.log(data);
         if (!!data.length) {
             for (let i = 0; i < data.length; i++) {
-
                 getScheduleNum(data[i]);
             }
         } // doughnut차트 프로젝트별 일정 개수 
@@ -93,6 +99,7 @@ function App() {
             "allday": (daily.start.dateTime.slice(0, 10) !== now) && (daily.end.dateTime.slice(0, 10) != now)
                 ? true : daily.allday,
             "id": daily.id,
+            "projectID": daily.projectID,
             "startDate": !(daily.allDay == true) && daily.start,
             "endDate": !(daily.allDay == true) && daily.end,
             "startHour": !(daily.allDay == true) && parseInt(daily.start.dateTime.slice(11, 13)),
@@ -162,7 +169,8 @@ function App() {
         form_or_calendar = (<FormForNewProject closeFormForProject={closeFormForProject} formRef={formRef} />);
     }
     else {
-        form_or_calendar = (<Calendar2 openForm={openForm} dailysObj={dailysObj} LINESPACE={LINESPACE} currentTime={currentTime} />);
+        form_or_calendar = (<Calendar2 openForm={openForm} dailysObj={dailysObj} LINESPACE={LINESPACE} currentTime={currentTime}
+            setCalendarUpdate={setCalendarUpdate} calnedarUpdate={calnedarUpdate} />);
     }
 
     return (
@@ -170,8 +178,8 @@ function App() {
             {/* {projectIDs.length !== 0 && console.log(projectIDs)} */}
             <Navbar />
             <div className={styles.main}>
-                <CreateProject sortedData={sortedData} openFormForProject={openFormForProject} openForm={openForm} setUpdate={setUpdate} update={update}/>
-                <RecentProject currentTime={currentTime} setUpdate={setUpdate} update={update} status={status} />
+                <CreateProject sortedData={sortedData} openFormForProject={openFormForProject} openForm={openForm} setUpdate={setProjectInfoUpdate} update={ProjectInfoUpdate}/>
+                <RecentProject currentTime={currentTime} setUpdate={setProjectInfoUpdate} update={ProjectInfoUpdate} status={status} />
                 <Charts numOfSchedule={numOfSchedule} status={status} />
             </div>
             {form_or_calendar}
