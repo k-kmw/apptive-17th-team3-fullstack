@@ -7,8 +7,6 @@ import styles from './navbar.module.css';
 
 const Navbar = () => {
     const { data: session } = useSession()
-    const minTime = new Date(new Date().setHours(0, 0, 0, 0)).toISOString();
-    const maxTime = new Date(new Date().setHours(23, 59, 59, 999)).toISOString();
 
     let UserInfo = (<></>);
     if(session){
@@ -19,10 +17,6 @@ const Navbar = () => {
                     <h3 className={styles.email}>{session.user.email}</h3>
                 </div>
                 <Image className={styles.userImg} src={session.user.image} width={"50px"} height={"50px"} alt="" />
-                <div>
-                    <p>{minTime}</p>
-                    <p>{maxTime}</p>
-                </div>
             </div>
         );
     }
