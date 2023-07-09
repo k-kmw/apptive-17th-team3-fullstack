@@ -3,6 +3,9 @@
 team3's fullstack(Node JS + React.js + Next.js + NextAuth)
 Without DB, Using Google Calendar API
 
+# 동작 영상
+<img src="https://github.com/k-kmw/apptive-17th-team3-fullstack/assets/100478309/df08927c-98b4-4993-84e3-ec613717df39.gif"/>
+
 # 논의사항
 
     - 프로젝트별 테마 색깔?
